@@ -2,6 +2,7 @@ import type { Player } from './player';
 
 export interface Game {
 	id: string;
+	name: string;
 	players: Player[];
 	currentRound: number;
 	isActive: boolean;
