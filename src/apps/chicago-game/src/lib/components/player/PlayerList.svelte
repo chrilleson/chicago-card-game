@@ -31,7 +31,6 @@
 
 	function removePlayer(index: number) {
 		dispatch('removePlayer', index);
-		// Cancel editing if we're removing the player being edited
 		if (editingIndex === index) {
 			cancelEdit();
 		}

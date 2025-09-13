@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import type { Game } from '../../types/game';
+	import type { Game } from '../../../types/game';
 
 	export let players: string[] = [];
 	export let isGameStarted = false;

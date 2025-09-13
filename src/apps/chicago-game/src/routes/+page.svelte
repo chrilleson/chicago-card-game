@@ -2,9 +2,9 @@
 	import { goto } from '$app/navigation';
 	import type { Player } from '../types/player';
 	import type { Game } from '../types/game';
-	import PlayerForm from '../lib/components/PlayerForm.svelte';
-	import PlayerList from '../lib/components/PlayerList.svelte';
-	import GameControls from '../lib/components/GameControls.svelte';
+	import PlayerForm from '../lib/components/player/PlayerForm.svelte';
+	import PlayerList from '../lib/components/player/PlayerList.svelte';
+	import GameControls from '../lib/components/ui/GameControls.svelte';
 
 	let players: string[] = [];
 	let currentGame: Game | null = null;
@@ -26,7 +26,7 @@
 		const { index, name } = event.detail;
 		if (name && !players.includes(name)) {
 			players[index] = name;
-			players = [...players]; // Trigger reactivity
+			players = [...players];
 		}
 	}
 
@@ -47,12 +47,10 @@
 				startedAt: new Date()
 			};
 
-			// Save game to session storage
 			if (typeof window !== 'undefined') {
 				sessionStorage.setItem(`game-${gameId}`, JSON.stringify(currentGame));
 			}
 
-			// Navigate to the game page
 			goto(`/game/${gameId}`);
 		}
 	}
