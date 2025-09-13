@@ -61,7 +61,7 @@
 	<!-- Hero Section -->
 	<div class="text-center pt-12 pb-8">
 		<div class="max-w-4xl mx-auto px-4">
-			<h1 class="text-5xl font-bold mb-4 text-gray-900">Chicago Card Game</h1>
+			<h1 class="text-5xl font-bold mb-4 text-gray-900">Chicago: Race to 52 Points</h1>
 			<p class="text-xl text-gray-600 mb-6 max-w-2xl mx-auto">
 				A Swedish card game for 2-4 players. Score points with poker hands and be the first to reach 52 points to win!
 			</p>
