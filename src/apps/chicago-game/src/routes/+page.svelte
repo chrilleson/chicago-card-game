@@ -5,6 +5,7 @@
 	import PlayerForm from '../lib/components/player/PlayerForm.svelte';
 	import PlayerList from '../lib/components/player/PlayerList.svelte';
 	import GameControls from '../lib/components/ui/GameControls.svelte';
+	import GameList from '../lib/components/game/GameList.svelte';
 
 	let players: string[] = [];
 	let currentGame: Game | null = null;
@@ -58,6 +59,11 @@
 
 <div class="text-center mt-8">
 	<h1 class="text-4xl font-bold mb-8">Chicago card game</h1>
+</div>
+
+<!-- Show previous games if any exist -->
+<div class="max-w-4xl mx-auto mb-8">
+	<GameList />
 </div>
 
 <PlayerForm 
