@@ -24,7 +24,7 @@
 
 	function loadGameFromStorage() {
 		try {
-			const savedGame = sessionStorage.getItem(`game-${gameId}`);
+			const savedGame = localStorage.getItem(`game-${gameId}`);
 			if (savedGame) {
 				const parsedGame = JSON.parse(savedGame);
 				parsedGame.startedAt = new Date(parsedGame.startedAt);
@@ -46,7 +46,7 @@
 
 	function saveGameToStorage() {
 		if (browser && currentGame) {
-			sessionStorage.setItem(`game-${gameId}`, JSON.stringify(currentGame));
+			localStorage.setItem(`game-${gameId}`, JSON.stringify(currentGame));
 		}
 	}
 

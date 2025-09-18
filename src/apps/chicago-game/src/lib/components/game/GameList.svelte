@@ -18,12 +18,12 @@
 	function loadGamesFromStorage() {
 		games = [];
 		
-		// Get all session storage keys that start with "game-"
-		for (let i = 0; i < sessionStorage.length; i++) {
-			const key = sessionStorage.key(i);
+		// Get all local storage keys that start with "game-"
+		for (let i = 0; i < localStorage.length; i++) {
+			const key = localStorage.key(i);
 			if (key && key.startsWith('game-')) {
 				try {
-					const gameData = sessionStorage.getItem(key);
+					const gameData = localStorage.getItem(key);
 					if (gameData) {
 						const game: Game = JSON.parse(gameData);
 						// Convert date strings back to Date objects
@@ -59,7 +59,7 @@
 
 	function confirmDelete() {
 		if (gameToDelete) {
-			sessionStorage.removeItem(`game-${gameToDelete.id}`);
+			localStorage.removeItem(`game-${gameToDelete.id}`);
 			loadGamesFromStorage(); // Refresh the list
 		}
 		showDeleteModal = false;

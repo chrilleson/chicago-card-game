@@ -50,7 +50,7 @@
 			};
 
 			if (typeof window !== 'undefined') {
-				sessionStorage.setItem(`game-${gameId}`, JSON.stringify(currentGame));
+				localStorage.setItem(`game-${gameId}`, JSON.stringify(currentGame));
 			}
 
 			goto(`/game/${gameId}`);
