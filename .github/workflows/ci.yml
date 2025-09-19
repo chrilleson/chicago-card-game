@@ -31,6 +31,10 @@ jobs:
         run: pnpm install
         working-directory: ./src
         
+      - name: Format code
+        run: pnpm --filter chicago-game format
+        working-directory: ./src
+        
       - name: Run linter
         run: pnpm --filter chicago-game lint
         working-directory: ./src

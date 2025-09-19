@@ -35,6 +35,7 @@ jobs:
         
       - name: Run tests before deployment
         run: |
+          pnpm --filter chicago-game format
           pnpm --filter chicago-game lint
           pnpm --filter chicago-game check
           pnpm --filter chicago-game build
