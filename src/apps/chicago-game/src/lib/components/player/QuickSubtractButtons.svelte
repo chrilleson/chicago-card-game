@@ -9,24 +9,24 @@
 	let { player, onSubtract }: Props = $props();
 </script>
 
-<div class="flex gap-2 mt-3">
-	<button 
+<div class="mt-3 flex gap-2">
+	<button
 		onclick={() => onSubtract(1)}
-		class="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition-colors"
+		class="rounded bg-red-500 px-3 py-1 text-sm text-white transition-colors hover:bg-red-600"
 		disabled={player.score === 0}
 	>
 		-1
 	</button>
-	<button 
+	<button
 		onclick={() => onSubtract(5)}
-		class="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition-colors"
+		class="rounded bg-red-500 px-3 py-1 text-sm text-white transition-colors hover:bg-red-600"
 		disabled={player.score < 5}
 	>
 		-5
 	</button>
-	<button 
+	<button
 		onclick={() => onSubtract(15)}
-		class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
+		class="rounded bg-red-600 px-3 py-1 text-sm text-white transition-colors hover:bg-red-700"
 		disabled={player.score < 15}
 	>
 		-15

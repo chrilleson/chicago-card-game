@@ -55,13 +55,15 @@
 	}
 </script>
 
-<div class="bg-gray-50 p-4 rounded-lg {player.score >= 52 ? 'ring-2 ring-green-500 bg-green-50' : ''}">
+<div
+	class="rounded-lg bg-gray-50 p-4 {player.score >= 52 ? 'bg-green-50 ring-2 ring-green-500' : ''}"
+>
 	<PlayerHeader {player} />
-	
+
 	{#if isGameActive}
 		<PokerHandButtons onPokerHandClick={handlePokerHandClick} />
-		<SpecialScoringButtons 
-			{player} 
+		<SpecialScoringButtons
+			{player}
 			onLastTrick={handleLastTrick}
 			onChicagoSuccess={handleChicagoSuccess}
 			onChicagoFail={handleChicagoFail}
@@ -70,7 +72,7 @@
 	{/if}
 </div>
 
-<FourOfAKindModal 
+<FourOfAKindModal
 	bind:show={showFourOfAKindDialog}
 	onChoice={handleFourOfAKindChoice}
 	onClose={closeFourOfAKindDialog}

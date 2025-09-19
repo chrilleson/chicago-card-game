@@ -2,8 +2,8 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
+	import { base } from '$app/paths';
 	import type { Game } from '../../../types/game';
-	import PlayerScoreCard from '../../../lib/components/player/PlayerScoreCard.svelte';
 	import PokerHandCheatsheet from '../../../lib/components/game/PokerHandCheatsheet.svelte';
 	import GameHeader from '../../../lib/components/game/GameHeader.svelte';
 	import GameOverBanner from '../../../lib/components/game/GameOverBanner.svelte';
@@ -32,7 +32,7 @@
 					parsedGame.finishedAt = new Date(parsedGame.finishedAt);
 				}
 				if (!parsedGame.name && parsedGame.players) {
-					parsedGame.name = `Game with ${parsedGame.players.map((p: any) => p.name).join(', ')}`;
+					parsedGame.name = `Game with ${parsedGame.players.map((p: { name: string }) => p.name).join(', ')}`;
 				}
 				currentGame = parsedGame;
 			} else {
@@ -71,24 +71,6 @@
 	function handleScoreUpdate(playerId: string, change: number) {
 		updatePlayerScore(playerId, change);
 	}
-
-	function handleResetOtherPlayers(playerId: string) {
-		if (currentGame) {
-			currentGame.players.forEach((player) => {
-				if (player.id !== playerId) {
-					player.score = 0;
-				}
-			});
-
-			const fourOfAKindPlayer = currentGame.players.find((p) => p.id === playerId);
-			if (fourOfAKindPlayer) {
-				fourOfAKindPlayer.score += 7;
-			}
-
-			currentGame = { ...currentGame };
-			saveGameToStorage();
-		}
-	}
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -122,7 +104,7 @@
 			</div>
 			<div class="text-center">
 				<a
-					href="/"
+					href={base ? base + '/' : '/'}
 					class="rounded-lg bg-blue-500 px-6 py-2 text-white transition-colors hover:bg-blue-600"
 				>
 					← Go to Home
@@ -149,7 +131,7 @@
 									4
 								)}, minmax(0, 1fr));"
 							>
-								{#each currentGame.players as player}
+								{#each currentGame.players as player (player.id)}
 									<div
 										class="rounded-lg border border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 p-4"
 									>
@@ -260,7 +242,7 @@
 
 						<div class="mt-6 border-t border-gray-200 pt-4 text-center">
 							<a
-								href="/"
+								href={base ? base + '/' : '/'}
 								class="inline-flex items-center gap-2 font-medium text-blue-600 hover:text-blue-800"
 							>
 								<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

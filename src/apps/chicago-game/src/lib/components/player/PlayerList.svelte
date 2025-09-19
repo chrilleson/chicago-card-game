@@ -43,46 +43,46 @@
 </script>
 
 {#if players.length > 0}
-	<div class="bg-gray-50 rounded-lg p-4">
-		<h3 class="text-lg font-medium mb-3">Players ({players.length})</h3>
+	<div class="rounded-lg bg-gray-50 p-4">
+		<h3 class="mb-3 text-lg font-medium">Players ({players.length})</h3>
 		<ul class="space-y-2">
-			{#each players as player, index}
-				<li class="flex items-center justify-between bg-white px-3 py-2 rounded border">
+			{#each players as player, index (index)}
+				<li class="flex items-center justify-between rounded border bg-white px-3 py-2">
 					{#if editingIndex === index}
-						<form on:submit={handleEditSubmit} class="flex-1 flex gap-2">
+						<form on:submit={handleEditSubmit} class="flex flex-1 gap-2">
 							<input
 								type="text"
 								bind:value={editName}
-								class="flex-1 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+								class="flex-1 rounded border border-gray-300 px-2 py-1 focus:ring-1 focus:ring-blue-500 focus:outline-none"
 								required
 							/>
 							<button
 								type="submit"
-								class="px-3 py-1 bg-green-500 text-white text-sm rounded hover:bg-green-600 transition-colors"
+								class="rounded bg-green-500 px-3 py-1 text-sm text-white transition-colors hover:bg-green-600"
 							>
 								Save
 							</button>
 							<button
 								type="button"
 								on:click={cancelEdit}
-								class="px-3 py-1 bg-gray-500 text-white text-sm rounded hover:bg-gray-600 transition-colors"
+								class="rounded bg-gray-500 px-3 py-1 text-sm text-white transition-colors hover:bg-gray-600"
 							>
 								Cancel
 							</button>
 						</form>
 					{:else}
-						<span class="font-medium flex-1">{player}</span>
+						<span class="flex-1 font-medium">{player}</span>
 						{#if !isGameStarted}
 							<div class="flex gap-2">
 								<button
 									on:click={() => startEdit(index)}
-									class="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition-colors"
+									class="rounded bg-blue-500 px-3 py-1 text-sm text-white transition-colors hover:bg-blue-600"
 								>
 									Edit
 								</button>
 								<button
 									on:click={() => removePlayer(index)}
-									class="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition-colors"
+									class="rounded bg-red-500 px-3 py-1 text-sm text-white transition-colors hover:bg-red-600"
 								>
 									Remove
 								</button>

@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 	import type { Game } from '../../../types/game';
 
 	export let gameId: string;
 	export let currentGame: Game | null = null;
 
 	function goHome() {
-		goto('/');
+		goto(base || '/');
 	}
 </script>
 
