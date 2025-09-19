@@ -31,12 +31,14 @@ jobs:
           
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+        working-directory: ./src
         
       - name: Run tests before deployment
         run: |
           pnpm --filter chicago-game lint
           pnpm --filter chicago-game check
           pnpm --filter chicago-game build
+        working-directory: ./src
         
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
