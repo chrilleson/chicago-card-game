@@ -9,14 +9,14 @@
 		onCancel: () => void;
 	}
 
-	let { 
-		show = false, 
-		title, 
-		message, 
-		confirmText = 'Confirm', 
+	let {
+		show = false,
+		title,
+		message,
+		confirmText = 'Confirm',
 		cancelText = 'Cancel',
 		onConfirm,
-		onCancel 
+		onCancel
 	}: Props = $props();
 
 	function handleBackdropClick() {
@@ -31,7 +31,7 @@
 </script>
 
 {#if show}
-	<div 
+	<div
 		class="fixed inset-0 z-50 flex items-center justify-center p-4"
 		style="background-color: rgba(0, 0, 0, 0.5);"
 		onclick={handleBackdropClick}
@@ -41,8 +41,8 @@
 		aria-labelledby="modal-title"
 		tabindex="0"
 	>
-		<div 
-			class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-auto transform transition-all"
+		<div
+			class="mx-auto w-full max-w-md transform rounded-xl bg-white shadow-2xl transition-all"
 			onclick={(e) => e.stopPropagation()}
 			onkeydown={() => {}}
 			role="dialog"
@@ -50,39 +50,44 @@
 			aria-labelledby="modal-title"
 			tabindex="-1"
 		>
-			<div class="px-6 py-4 border-b border-gray-200">
+			<div class="border-b border-gray-200 px-6 py-4">
 				<div class="flex items-center justify-between">
 					<h2 id="modal-title" class="text-lg font-semibold text-gray-900">
 						{title}
 					</h2>
 					<button
 						onclick={onCancel}
-						class="text-gray-400 hover:text-gray-600 transition-colors"
+						class="text-gray-400 transition-colors hover:text-gray-600"
 						aria-label="Close modal"
 					>
-						<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+						<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M6 18L18 6M6 6l12 12"
+							/>
 						</svg>
 					</button>
 				</div>
 			</div>
-			
+
 			<div class="px-6 py-4">
-				<p class="text-gray-700 leading-relaxed">
+				<p class="leading-relaxed text-gray-700">
 					{message}
 				</p>
 			</div>
-			
-			<div class="px-6 py-4 bg-gray-50 rounded-b-xl flex gap-3 justify-end">
+
+			<div class="flex justify-end gap-3 rounded-b-xl bg-gray-50 px-6 py-4">
 				<button
 					onclick={onCancel}
-					class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+					class="rounded-lg border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 transition-colors hover:bg-gray-50"
 				>
 					{cancelText}
 				</button>
 				<button
 					onclick={onConfirm}
-					class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
+					class="rounded-lg bg-red-600 px-4 py-2 font-medium text-white transition-colors hover:bg-red-700"
 				>
 					{confirmText}
 				</button>

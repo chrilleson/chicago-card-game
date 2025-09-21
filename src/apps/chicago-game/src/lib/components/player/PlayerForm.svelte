@@ -23,19 +23,21 @@
 			type="text"
 			bind:value={playerName}
 			placeholder="Enter player name"
-			class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+			class="flex-1 rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
 			required
 			disabled={isGameStarted}
 		/>
 		<button
 			type="submit"
-			class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed font-medium"
+			class="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400"
 			disabled={isGameStarted}
 		>
 			Add Player
 		</button>
 	</div>
 	{#if isGameStarted}
-		<p class="text-sm text-gray-600 mt-3 text-center">Cannot add players while game is in progress</p>
+		<p class="mt-3 text-center text-sm text-gray-600">
+			Cannot add players while game is in progress
+		</p>
 	{/if}
 </form>

@@ -1,0 +1,48 @@
+name: CI - Build & Test
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Test & Lint
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          cache-dependency-path: 'src/pnpm-lock.yaml'
+          
+      - name: Install dependencies
+        run: pnpm install
+        working-directory: ./src
+        
+      - name: Format code
+        run: pnpm --filter chicago-game format
+        working-directory: ./src
+        
+      - name: Run linter
+        run: pnpm --filter chicago-game lint
+        working-directory: ./src
+        
+      - name: Run type check
+        run: pnpm --filter chicago-game check
+        working-directory: ./src
+        
+      - name: Build application
+        run: pnpm --filter chicago-game build
+        working-directory: ./src
