@@ -1,4 +1,5 @@
 export interface PokerHand {
+	id: number;
 	name: string;
 	points: number;
 	symbol: string;
@@ -20,6 +21,7 @@ export type PokerHandType =
 
 export const POKER_HANDS: PokerHand[] = [
 	{
+		id: 0,
 		name: 'Pair',
 		points: 1,
 		symbol: 'K♠ K♥',
@@ -28,6 +30,7 @@ export const POKER_HANDS: PokerHand[] = [
 		category: 'basic'
 	},
 	{
+		id: 1,
 		name: 'Two Pairs',
 		points: 2,
 		symbol: 'K♠ K♥ 7♣ 7♦',
@@ -36,6 +39,7 @@ export const POKER_HANDS: PokerHand[] = [
 		category: 'basic'
 	},
 	{
+		id: 2,
 		name: 'Three of a Kind',
 		points: 3,
 		symbol: 'K♠ K♥ K♣',
@@ -44,6 +48,7 @@ export const POKER_HANDS: PokerHand[] = [
 		category: 'basic'
 	},
 	{
+		id: 3,
 		name: 'Straight',
 		points: 4,
 		symbol: '5♠ 6♥ 7♣ 8♦ 9♠',
@@ -52,6 +57,7 @@ export const POKER_HANDS: PokerHand[] = [
 		category: 'advanced'
 	},
 	{
+		id: 4,
 		name: 'Flush',
 		points: 5,
 		symbol: 'K♠ 9♠ 7♠ 4♠ 2♠',
@@ -60,6 +66,7 @@ export const POKER_HANDS: PokerHand[] = [
 		category: 'advanced'
 	},
 	{
+		id: 5,
 		name: 'Full House',
 		points: 6,
 		symbol: 'K♠ K♥ K♣ 7♦ 7♠',
@@ -68,6 +75,7 @@ export const POKER_HANDS: PokerHand[] = [
 		category: 'advanced'
 	},
 	{
+		id: 6,
 		name: 'Four of a Kind',
 		points: 7,
 		symbol: 'K♠ K♥ K♣ K♦',
@@ -76,6 +84,7 @@ export const POKER_HANDS: PokerHand[] = [
 		category: 'rare'
 	},
 	{
+		id: 7,
 		name: 'Straight Flush',
 		points: 8,
 		symbol: '5♠ 6♠ 7♠ 8♠ 9♠',
@@ -84,6 +93,7 @@ export const POKER_HANDS: PokerHand[] = [
 		category: 'rare'
 	},
 	{
+		id: 8,
 		name: 'Royal Straight Flush',
 		points: 52,
 		symbol: '10♠ J♠ Q♠ K♠ A♠',
