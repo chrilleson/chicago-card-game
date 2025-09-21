@@ -45,7 +45,6 @@
 				id: gameId,
 				name: `Game with ${players.join(', ')}`,
 				players: gamePlayers,
-				currentRound: 1,
 				isActive: true,
 				startedAt: new Date()
 			};

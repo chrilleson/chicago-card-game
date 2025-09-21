@@ -86,7 +86,7 @@
 		if (!game.isActive) {
 			return 'Finished';
 		}
-		return `Round ${game.currentRound}`;
+		return 'In Progress';
 	}
 
 	function getWinner(game: Game) {

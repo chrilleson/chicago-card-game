@@ -25,10 +25,6 @@
 
 	<div class="flex-1 text-center">
 		<h1 class="mb-2 text-4xl font-bold">Chicago: Race to 52 Points</h1>
-		<p class="text-sm text-gray-600">Game ID: {gameId}</p>
-		{#if currentGame}
-			<p class="text-lg font-semibold">Round {currentGame.currentRound}</p>
-		{/if}
 	</div>
 
 	<div class="w-24"></div>

@@ -5,7 +5,7 @@
 
 <div class="mb-6 rounded border border-yellow-400 bg-yellow-100 px-4 py-3 text-yellow-700">
 	<p class="font-semibold">Game not found!</p>
-	<p>The game with ID "{gameId}" could not be found. It may have expired or never existed.</p>
+	<p>The game could not be found. It may have expired or never existed.</p>
 </div>
 <div class="text-center">
 	<a

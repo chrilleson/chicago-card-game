@@ -4,7 +4,6 @@ export interface Game {
 	id: string;
 	name: string;
 	players: Player[];
-	currentRound: number;
 	isActive: boolean;
 	startedAt: Date;
 	finishedAt?: Date;
