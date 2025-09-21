@@ -32,7 +32,7 @@
 	{:else}
 		<div class="mt-4 text-center">
 			<div class="rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700">
-				<strong>Game Started!</strong> Round {currentGame?.currentRound}
+				<strong>Game Started!</strong> Let's play!
 			</div>
 		</div>
 	{/if}
