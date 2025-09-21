@@ -9,7 +9,7 @@
 </div>
 <div class="text-center">
 	<a
-		href="{base ? base + '/' : '/'}/"
+		href="{base ? base + '/' : '/'}"
 		class="rounded-lg bg-blue-500 px-6 py-2 text-white transition-colors hover:bg-blue-600"
 	>
 		← Start New Game
