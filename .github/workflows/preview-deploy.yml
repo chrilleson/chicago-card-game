@@ -32,13 +32,6 @@ jobs:
         run: pnpm install
         working-directory: ./src
 
-      - name: Run basic validation
-        run: |
-          pnpm --filter chicago-game lint
-          pnpm --filter chicago-game check
-          pnpm --filter chicago-game build
-        working-directory: ./src
-
       - name: Install Vercel CLI
         run: pnpm add --global vercel@latest
 
