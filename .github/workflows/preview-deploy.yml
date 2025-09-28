@@ -1,20 +1,25 @@
 name: Vercel Preview Deployment
+
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
 on:
   workflow_dispatch:
+  pull_request:
+    branches: [main]
 
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10.0.0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -23,14 +28,28 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: 'src/pnpm-lock.yaml'
 
+      - name: Install dependencies
+        run: pnpm install
+        working-directory: ./src
+
+      - name: Run basic validation
+        run: |
+          pnpm --filter chicago-game lint
+          pnpm --filter chicago-game check
+          pnpm --filter chicago-game build
+        working-directory: ./src
+
       - name: Install Vercel CLI
         run: pnpm add --global vercel@latest
 
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./src/apps/chicago-game
 
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./src/apps/chicago-game
 
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./src/apps/chicago-game
