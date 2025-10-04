@@ -35,8 +35,7 @@
 					<span class="text-xs text-gray-500 xl:text-sm">{hand.symbol}</span>
 				</div>
 				<span
-					class="self-start rounded px-2 py-1 text-xs font-medium whitespace-nowrap xl:text-sm {hand.points ===
-					52
+					class="self-start rounded px-2 py-1 text-xs font-medium whitespace-nowrap xl:text-sm {hand.points === 52
 						? 'bg-yellow-100 text-yellow-800'
 						: colorClass.badge}"
 				>

@@ -5,7 +5,7 @@
 </script>
 
 <div class="mb-4 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700">
-	<p class="text-lg font-semibold">🎉 Game Over!</p>
+	<p class="text-lg font-semibold">🎉 Game Finished!</p>
 	{#if winner}
 		<p><strong>{winner.name}</strong> wins with {winner.score} points!</p>
 	{:else}

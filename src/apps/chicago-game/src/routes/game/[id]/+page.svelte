@@ -2,7 +2,6 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	import { base } from '$app/paths';
 	import type { Game } from '../../../types/game';
 	import type { Player } from '../../../types/player';
 	import PokerHandCheatsheet from '../../../lib/components/game/PokerHandCheatsheet.svelte';
@@ -158,17 +157,17 @@
 										4
 									)}, minmax(0, 1fr));"
 								>
-					{#each currentGame.players as player (player.id)}
-						<DesktopPlayerCard
-							{player}
-							isActive={currentGame.isActive}
-							onScoreUpdate={handleScoreUpdate}
-						/>
-					{/each}
+									{#each currentGame.players as player (player.id)}
+										<DesktopPlayerCard
+											{player}
+											isActive={currentGame.isActive}
+											onScoreUpdate={handleScoreUpdate}
+										/>
+									{/each}
 								</div>
 							</div>
 
-							<div class="border-t border-gray-200 pt-4">
+							<div class="pt-4">
 								<BackToHomeLink />
 							</div>
 						</div>
@@ -185,7 +184,7 @@
 	</div>
 </div>
 
-<ScoreUpdateModal 
+<ScoreUpdateModal
 	show={showScoreModal}
 	player={selectedPlayer}
 	onScoreUpdate={handleScoreUpdate}

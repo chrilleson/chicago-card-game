@@ -175,45 +175,6 @@
 						{/if}
 					</div>
 				</div>
-
-				<!-- Quick Stats Card -->
-				<div class="mt-6 rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
-					<h3 class="mb-4 text-lg font-semibold text-gray-900">Game Rules Quick Reference</h3>
-					<div class="space-y-3 text-sm">
-						<div class="flex justify-between">
-							<span class="text-gray-600">One pair</span>
-							<span class="font-medium">1 point</span>
-						</div>
-						<div class="flex justify-between">
-							<span class="text-gray-600">Two pairs</span>
-							<span class="font-medium">2 points</span>
-						</div>
-						<div class="flex justify-between">
-							<span class="text-gray-600">Three of a kind</span>
-							<span class="font-medium">3 points</span>
-						</div>
-						<div class="flex justify-between">
-							<span class="text-gray-600">Straight</span>
-							<span class="font-medium">4 points</span>
-						</div>
-						<div class="flex justify-between">
-							<span class="text-gray-600">Flush</span>
-							<span class="font-medium">5 points</span>
-						</div>
-						<div class="flex justify-between">
-							<span class="text-gray-600">Full house</span>
-							<span class="font-medium">6 points</span>
-						</div>
-						<div class="flex justify-between">
-							<span class="text-gray-600">Four of a kind</span>
-							<span class="font-medium">7 points</span>
-						</div>
-						<div class="flex justify-between border-t pt-2">
-							<span class="text-gray-600">Royal straight flush</span>
-							<span class="font-bold text-blue-600">52 points!</span>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>

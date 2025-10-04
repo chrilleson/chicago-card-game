@@ -85,7 +85,6 @@
 					RF
 				</button>
 			</div>
-
 			<div class="mt-2 grid grid-cols-3 gap-1">
 				<button
 					onclick={() => onScoreUpdate(player.id, 5)}
