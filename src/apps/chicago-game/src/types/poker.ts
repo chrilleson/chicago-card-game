@@ -110,7 +110,7 @@ export const POKER_HANDS: PokerHand[] = [
 		symbol: '10♠ J♠ Q♠ K♠ A♠',
 		description: '10-J-Q-K-A of same suit',
 		shortName: 'Royal',
-		category: { name: 'rare', color: 'yellow' }
+		category: { ...POKER_HAND_CATEGORIES.rare, color: 'yellow' }
 	}
 ];
 
