@@ -6,11 +6,14 @@
 	import type { Game } from '../../../types/game';
 	import type { Player } from '../../../types/player';
 	import PokerHandCheatsheet from '../../../lib/components/game/PokerHandCheatsheet.svelte';
-	import GameHeader from '../../../lib/components/game/GameHeader.svelte';
 	import GameOverBanner from '../../../lib/components/game/GameOverBanner.svelte';
 	import GameNotFound from '../../../lib/components/ui/GameNotFound.svelte';
 	import LoadingState from '../../../lib/components/ui/LoadingState.svelte';
+	import BackToHomeLink from '../../../lib/components/ui/BackToHomeLink.svelte';
+	import EmptyGameState from '../../../lib/components/ui/EmptyGameState.svelte';
 	import MobilePlayerList from '../../../lib/components/player/MobilePlayerList.svelte';
+	import ScoreUpdateModal from '../../../lib/components/player/ScoreUpdateModal.svelte';
+	import DesktopPlayerCard from '../../../lib/components/player/DesktopPlayerCard.svelte';
 
 	const gameId = $page.params.id || '';
 
@@ -71,10 +74,6 @@
 		}
 	}
 
-	function handleScoreUpdate(playerId: string, change: number) {
-		updatePlayerScore(playerId, change);
-	}
-
 	function handlePlayerClick(event: CustomEvent<string>) {
 		const playerId = event.detail;
 		if (currentGame) {
@@ -83,10 +82,26 @@
 		}
 	}
 
-	function handleModalScoreUpdate(playerId: string, change: number) {
-		handleScoreUpdate(playerId, change);
+	function handleScoreUpdate(playerId: string, change: number) {
+		updatePlayerScore(playerId, change);
 		if (selectedPlayer && selectedPlayer.id === playerId && currentGame) {
 			selectedPlayer = currentGame.players.find(p => p.id === playerId) || null;
+		}
+	}
+
+	function handleResetOtherPlayers(playerId: string) {
+		if (currentGame) {
+			currentGame.players = currentGame.players.map(player => {
+				if (player.id !== playerId) {
+					return { ...player, score: 0 };
+				}
+				return player;
+			});
+			currentGame = { ...currentGame };
+			saveGameToStorage();
+			if (selectedPlayer) {
+				selectedPlayer = currentGame.players.find(p => p.id === playerId) || null;
+			}
 		}
 	}
 
@@ -104,18 +119,7 @@
 		{:else if !currentGame}
 			<LoadingState />
 		{:else if currentGame.players.length === 0}
-			<div class="mb-6 rounded border border-yellow-400 bg-yellow-100 px-4 py-3 text-yellow-700">
-				<p class="font-semibold">No players found!</p>
-				<p>This game has no players. Please start a new game.</p>
-			</div>
-			<div class="text-center">
-				<a
-					href={base ? base + '/' : '/'}
-					class="rounded-lg bg-blue-500 px-6 py-2 text-white transition-colors hover:bg-blue-600"
-				>
-					← Go to Home
-				</a>
-			</div>
+			<EmptyGameState />
 		{:else}
 			{#if !currentGame.isActive}
 				{@const winner = currentGame.players.find((p) => p.score >= 52)}
@@ -136,22 +140,7 @@
 					<PokerHandCheatsheet />
 				</div>
 				
-				<div class="mt-6 text-center">
-					<a
-						href={base ? base + '/' : '/'}
-						class="inline-flex items-center gap-2 font-medium text-blue-600 hover:text-blue-800"
-					>
-						<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M15 19l-7-7 7-7"
-							/>
-						</svg>
-						Back to Home
-					</a>
-				</div>
+				<BackToHomeLink />
 			</div>
 
 			<!-- Desktop Layout (hidden on smaller screens) -->
@@ -169,130 +158,18 @@
 										4
 									)}, minmax(0, 1fr));"
 								>
-									{#each currentGame.players as player (player.id)}
-										<div
-											class="rounded-lg border border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 p-4"
-										>
-											<div class="mb-3 text-center">
-												<h3 class="truncate text-lg font-bold text-gray-900" title={player.name}>
-													{player.name}
-												</h3>
-												<div class="mb-2 text-3xl font-bold text-blue-600">
-													{player.score}
-												</div>
-												<div class="text-sm text-gray-600">
-													{52 - player.score} to win
-												</div>
-											</div>
-
-											{#if currentGame.isActive}
-												<div class="space-y-2">
-													<div class="grid grid-cols-4 gap-1">
-														<button
-															onclick={() => handleScoreUpdate(player.id, 1)}
-															class="rounded bg-blue-500 px-1 py-1 text-xs text-white transition-colors hover:bg-blue-600"
-															title="One Pair"
-														>
-															1p
-														</button>
-														<button
-															onclick={() => handleScoreUpdate(player.id, 2)}
-															class="rounded bg-blue-500 px-1 py-1 text-xs text-white transition-colors hover:bg-blue-600"
-															title="Two Pairs"
-														>
-															2p
-														</button>
-														<button
-															onclick={() => handleScoreUpdate(player.id, 3)}
-															class="rounded bg-blue-500 px-1 py-1 text-xs text-white transition-colors hover:bg-blue-600"
-															title="Three of a Kind"
-														>
-															3K
-														</button>
-														<button
-															onclick={() => handleScoreUpdate(player.id, 4)}
-															class="rounded bg-blue-500 px-1 py-1 text-xs text-white transition-colors hover:bg-blue-600"
-															title="Straight"
-														>
-															Str
-														</button>
-													</div>
-													<div class="grid grid-cols-4 gap-1">
-														<button
-															onclick={() => handleScoreUpdate(player.id, 5)}
-															class="rounded bg-green-500 px-1 py-1 text-xs text-white transition-colors hover:bg-green-600"
-															title="Flush"
-														>
-															Fl
-														</button>
-														<button
-															onclick={() => handleScoreUpdate(player.id, 6)}
-															class="rounded bg-green-500 px-1 py-1 text-xs text-white transition-colors hover:bg-green-600"
-															title="Full House"
-														>
-															FH
-														</button>
-														<button
-															onclick={() => handleScoreUpdate(player.id, 7)}
-															class="rounded bg-purple-500 px-1 py-1 text-xs text-white transition-colors hover:bg-purple-600"
-															title="Four of a Kind"
-														>
-															4K
-														</button>
-														<button
-															onclick={() => handleScoreUpdate(player.id, 52)}
-															class="rounded bg-yellow-500 px-1 py-1 text-xs text-white transition-colors hover:bg-yellow-600"
-															title="Royal Straight Flush"
-														>
-															RF
-														</button>
-													</div>
-
-													<div class="mt-2 grid grid-cols-3 gap-1">
-														<button
-															onclick={() => handleScoreUpdate(player.id, 5)}
-															class="rounded bg-emerald-500 px-1 py-1 text-xs text-white transition-colors hover:bg-emerald-600"
-															title="Last Trick"
-														>
-															+5
-														</button>
-														<button
-															onclick={() => handleScoreUpdate(player.id, -1)}
-															class="rounded bg-red-500 px-1 py-1 text-xs text-white transition-colors hover:bg-red-600"
-															title="Subtract 1"
-														>
-															-1
-														</button>
-														<button
-															onclick={() => handleScoreUpdate(player.id, -5)}
-															class="rounded bg-red-600 px-1 py-1 text-xs text-white transition-colors hover:bg-red-700"
-															title="Subtract 5"
-														>
-															-5
-														</button>
-													</div>
-												</div>
-											{/if}
-										</div>
-									{/each}
+					{#each currentGame.players as player (player.id)}
+						<DesktopPlayerCard
+							{player}
+							isActive={currentGame.isActive}
+							onScoreUpdate={handleScoreUpdate}
+						/>
+					{/each}
 								</div>
 							</div>
 
-							<div class="mt-6 border-t border-gray-200 pt-4 text-center">
-								<a
-									href={base ? base + '/' : '/'}
-									class="inline-flex items-center gap-2 font-medium text-blue-600 hover:text-blue-800"
-								>
-									<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M15 19l-7-7 7-7"
-										/>
-									</svg>
-									Back to Home
-								</a>
+							<div class="border-t border-gray-200 pt-4">
+								<BackToHomeLink />
 							</div>
 						</div>
 					</div>
@@ -308,161 +185,10 @@
 	</div>
 </div>
 
-<!-- Score Modal (using same pattern as cheatsheet) -->
-{#if showScoreModal && selectedPlayer}
-	<div
-		class="fixed inset-0 z-50 flex items-center justify-center p-4"
-		style="background-color: rgba(0, 0, 0, 0.5);"
-		onclick={closeScoreModal}
-		onkeydown={() => {}}
-		role="button"
-		tabindex="0"
-	>
-		<div
-			class="max-h-[90vh] w-full max-w-sm overflow-y-auto rounded-lg bg-white"
-			onclick={(e) => e.stopPropagation()}
-			onkeydown={() => {}}
-			role="dialog"
-			aria-modal="true"
-			tabindex="-1"
-		>
-			<!-- Header -->
-			<div class="flex items-center justify-between border-b p-4 bg-blue-600 text-white rounded-t-lg">
-				<div>
-					<h3 class="text-lg font-semibold">{selectedPlayer.name}</h3>
-					<div class="text-blue-100">Score: {selectedPlayer.score}</div>
-				</div>
-				<button
-					onclick={closeScoreModal}
-					class="text-blue-100 hover:text-white transition-colors"
-					aria-label="Close modal"
-				>
-					<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M6 18L18 6M6 6l12 12"
-						/>
-					</svg>
-				</button>
-			</div>
-
-			<!-- Content -->
-			<div class="p-4 space-y-4">
-				<!-- Poker Hands -->
-				<div>
-					<h4 class="text-sm font-medium text-gray-700 mb-3">Poker Hands</h4>
-					<div class="grid grid-cols-2 gap-3">
-						<button
-							onclick={() => handleModalScoreUpdate(selectedPlayer.id, 1)}
-							class="flex flex-col items-center justify-center p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-						>
-							<span class="text-lg font-bold">1</span>
-							<span class="text-xs">One Pair</span>
-						</button>
-						<button
-							onclick={() => handleModalScoreUpdate(selectedPlayer.id, 2)}
-							class="flex flex-col items-center justify-center p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-						>
-							<span class="text-lg font-bold">2</span>
-							<span class="text-xs">Two Pairs</span>
-						</button>
-						<button
-							onclick={() => handleModalScoreUpdate(selectedPlayer.id, 3)}
-							class="flex flex-col items-center justify-center p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-						>
-							<span class="text-lg font-bold">3</span>
-							<span class="text-xs">Three Kind</span>
-						</button>
-						<button
-							onclick={() => handleModalScoreUpdate(selectedPlayer.id, 4)}
-							class="flex flex-col items-center justify-center p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-						>
-							<span class="text-lg font-bold">4</span>
-							<span class="text-xs">Straight</span>
-						</button>
-						<button
-							onclick={() => handleModalScoreUpdate(selectedPlayer.id, 5)}
-							class="flex flex-col items-center justify-center p-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
-						>
-							<span class="text-lg font-bold">5</span>
-							<span class="text-xs">Flush</span>
-						</button>
-						<button
-							onclick={() => handleModalScoreUpdate(selectedPlayer.id, 6)}
-							class="flex flex-col items-center justify-center p-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
-						>
-							<span class="text-lg font-bold">6</span>
-							<span class="text-xs">Full House</span>
-						</button>
-						<button
-							onclick={() => handleModalScoreUpdate(selectedPlayer.id, 7)}
-							class="flex flex-col items-center justify-center p-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
-						>
-							<span class="text-lg font-bold">7</span>
-							<span class="text-xs">Four Kind</span>
-						</button>
-						<button
-							onclick={() => handleModalScoreUpdate(selectedPlayer.id, 52)}
-							class="flex flex-col items-center justify-center p-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors"
-						>
-							<span class="text-lg font-bold">52</span>
-							<span class="text-xs">Royal Flush</span>
-						</button>
-					</div>
-				</div>
-
-				<!-- Special Scoring -->
-				<div>
-					<h4 class="text-sm font-medium text-gray-700 mb-3">Special Scoring</h4>
-					<div class="grid grid-cols-1 gap-2">
-						<button
-							onclick={() => handleModalScoreUpdate(selectedPlayer.id, 5)}
-							class="flex items-center justify-center p-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors"
-						>
-							<span class="font-semibold">Last Trick (+5)</span>
-						</button>
-						<button
-							onclick={() => handleModalScoreUpdate(selectedPlayer.id, 15)}
-							class="flex items-center justify-center p-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors"
-						>
-							<span class="font-semibold">Chicago Success (+15)</span>
-						</button>
-						<button
-							onclick={() => handleModalScoreUpdate(selectedPlayer.id, -15)}
-							class="flex items-center justify-center p-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-						>
-							<span class="font-semibold">Chicago Fail (-15)</span>
-						</button>
-					</div>
-				</div>
-
-				<!-- Subtract Points -->
-				<div>
-					<h4 class="text-sm font-medium text-gray-700 mb-3">Subtract Points</h4>
-					<div class="grid grid-cols-3 gap-2">
-						<button
-							onclick={() => handleModalScoreUpdate(selectedPlayer.id, -1)}
-							class="flex items-center justify-center p-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-						>
-							<span class="font-semibold">-1</span>
-						</button>
-						<button
-							onclick={() => handleModalScoreUpdate(selectedPlayer.id, -5)}
-							class="flex items-center justify-center p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-						>
-							<span class="font-semibold">-5</span>
-						</button>
-						<button
-							onclick={() => handleModalScoreUpdate(selectedPlayer.id, -10)}
-							class="flex items-center justify-center p-3 bg-red-700 text-white rounded-lg hover:bg-red-800 transition-colors"
-						>
-							<span class="font-semibold">-10</span>
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-{/if}
+<ScoreUpdateModal 
+	show={showScoreModal}
+	player={selectedPlayer}
+	onScoreUpdate={handleScoreUpdate}
+	onResetOtherPlayers={handleResetOtherPlayers}
+	onClose={closeScoreModal}
+/>
