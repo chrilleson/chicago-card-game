@@ -142,7 +142,7 @@
 						</div>
 
 						<div class="mt-6">
-							<GameControls {players} {isGameStarted} {currentGame} onStartGame={handleStartGame} />
+							<GameControls {players} {isGameStarted} onStartGame={handleStartGame} />
 						</div>
 
 						{#if players.length === 0}

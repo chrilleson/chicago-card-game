@@ -17,7 +17,7 @@
 	}
 </script>
 
-<form on:submit={handleSubmit}>
+<form onsubmit={handleSubmit}>
 	<div class="flex gap-3">
 		<input
 			type="text"

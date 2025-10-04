@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { base } from '$app/paths';
-	export let gameId: string;
+
+	interface Props {
+		gameId?: string;
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	let { gameId }: Props = $props();
 </script>
 
 <div class="mb-6 rounded border border-yellow-400 bg-yellow-100 px-4 py-3 text-yellow-700">

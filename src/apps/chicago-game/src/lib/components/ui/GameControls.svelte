@@ -16,7 +16,7 @@
 	{#if !isGameStarted}
 		<div class="mt-4 text-center">
 			<button
-				on:click={handleStartGame}
+				onclick={handleStartGame}
 				disabled={players.length < 2}
 				class="rounded-lg bg-green-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-green-700 disabled:cursor-not-allowed disabled:bg-gray-400"
 			>
