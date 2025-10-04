@@ -1,17 +1,14 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
-	import type { Game } from '../../../types/game';
+	interface Props {
+		players: string[];
+		isGameStarted: boolean;
+		onStartGame: () => void;
+	}
 
-	export let players: string[] = [];
-	export let isGameStarted = false;
-	export let currentGame: Game | null = null;
-
-	const dispatch = createEventDispatcher<{
-		startGame: void;
-	}>();
+	let { players, isGameStarted, onStartGame }: Props = $props();
 
 	function handleStartGame() {
-		dispatch('startGame');
+		onStartGame();
 	}
 </script>
 

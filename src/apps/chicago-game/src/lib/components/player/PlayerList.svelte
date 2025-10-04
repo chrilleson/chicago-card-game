@@ -1,16 +1,15 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	interface Props {
+		players: string[];
+		isGameStarted: boolean;
+		onRemovePlayer: (index: number) => void;
+		onUpdatePlayer: (data: { index: number; name: string }) => void;
+	}
 
-	export let players: string[] = [];
-	export let isGameStarted = false;
+	let { players, isGameStarted, onRemovePlayer, onUpdatePlayer }: Props = $props();
 
-	let editingIndex = -1;
-	let editName = '';
-
-	const dispatch = createEventDispatcher<{
-		removePlayer: number;
-		updatePlayer: { index: number; name: string };
-	}>();
+	let editingIndex = $state(-1);
+	let editName = $state('');
 
 	function startEdit(index: number) {
 		editingIndex = index;
@@ -19,7 +18,7 @@
 
 	function saveEdit() {
 		if (editName.trim()) {
-			dispatch('updatePlayer', { index: editingIndex, name: editName.trim() });
+			onUpdatePlayer({ index: editingIndex, name: editName.trim() });
 			cancelEdit();
 		}
 	}
@@ -30,7 +29,7 @@
 	}
 
 	function removePlayer(index: number) {
-		dispatch('removePlayer', index);
+		onRemovePlayer(index);
 		if (editingIndex === index) {
 			cancelEdit();
 		}

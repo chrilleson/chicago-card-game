@@ -12,20 +12,18 @@
 	let currentGame: Game | null = null;
 	let isGameStarted = false;
 
-	function handleAddPlayer(event: CustomEvent<string>) {
-		const playerName = event.detail;
+	function handleAddPlayer(playerName: string) {
 		if (playerName && !players.includes(playerName)) {
 			players = [...players, playerName];
 		}
 	}
 
-	function handleRemovePlayer(event: CustomEvent<number>) {
-		const index = event.detail;
+	function handleRemovePlayer(index: number) {
 		players = players.filter((_, i) => i !== index);
 	}
 
-	function handleUpdatePlayer(event: CustomEvent<{ index: number; name: string }>) {
-		const { index, name } = event.detail;
+	function handleUpdatePlayer(data: { index: number; name: string }) {
+		const { index, name } = data;
 		if (name && !players.includes(name)) {
 			players[index] = name;
 			players = [...players];
@@ -132,24 +130,19 @@
 					</div>
 
 					<div class="p-6">
-						<PlayerForm {isGameStarted} on:addPlayer={handleAddPlayer} />
+						<PlayerForm {isGameStarted} onAddPlayer={handleAddPlayer} />
 
 						<div class="mt-6">
 							<PlayerList
 								{players}
 								{isGameStarted}
-								on:removePlayer={handleRemovePlayer}
-								on:updatePlayer={handleUpdatePlayer}
+								onRemovePlayer={handleRemovePlayer}
+								onUpdatePlayer={handleUpdatePlayer}
 							/>
 						</div>
 
 						<div class="mt-6">
-							<GameControls
-								{players}
-								{isGameStarted}
-								{currentGame}
-								on:startGame={handleStartGame}
-							/>
+							<GameControls {players} {isGameStarted} {currentGame} onStartGame={handleStartGame} />
 						</div>
 
 						{#if players.length === 0}

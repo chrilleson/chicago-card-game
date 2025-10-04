@@ -1,21 +1,17 @@
 <script lang="ts">
 	import type { Player } from '../../../types/player';
-	import { createEventDispatcher } from 'svelte';
 
 	interface Props {
 		players: Player[];
 		isGameActive: boolean;
+		onPlayerClick: (playerId: string) => void;
 	}
 
-	let { players, isGameActive }: Props = $props();
-
-	const dispatch = createEventDispatcher<{
-		playerClick: string; // player ID
-	}>();
+	let { players, isGameActive, onPlayerClick }: Props = $props();
 
 	function handlePlayerClick(playerId: string) {
 		if (isGameActive) {
-			dispatch('playerClick', playerId);
+			onPlayerClick(playerId);
 		}
 	}
 </script>

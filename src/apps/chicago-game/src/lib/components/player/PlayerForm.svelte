@@ -1,17 +1,17 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	interface Props {
+		isGameStarted: boolean;
+		onAddPlayer: (playerName: string) => void;
+	}
 
-	export let isGameStarted = false;
+	let { isGameStarted, onAddPlayer }: Props = $props();
 
-	let playerName = '';
-	const dispatch = createEventDispatcher<{
-		addPlayer: string;
-	}>();
+	let playerName = $state('');
 
 	function handleSubmit(event: Event) {
 		event.preventDefault();
 		if (playerName.trim()) {
-			dispatch('addPlayer', playerName.trim());
+			onAddPlayer(playerName.trim());
 			playerName = '';
 		}
 	}

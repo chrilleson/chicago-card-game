@@ -73,8 +73,7 @@
 		}
 	}
 
-	function handlePlayerClick(event: CustomEvent<string>) {
-		const playerId = event.detail;
+	function handlePlayerClick(playerId: string) {
 		if (currentGame) {
 			selectedPlayer = currentGame.players.find((p) => p.id === playerId) || null;
 			showScoreModal = true;
@@ -131,7 +130,7 @@
 				<MobilePlayerList
 					players={currentGame.players}
 					isGameActive={currentGame.isActive}
-					on:playerClick={handlePlayerClick}
+					onPlayerClick={handlePlayerClick}
 				/>
 
 				<div class="mt-6">
