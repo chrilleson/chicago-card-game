@@ -17,7 +17,7 @@ export type PokerHand = {
 	description: string;
 	shortName?: string;
 	category: PokerHandCategory;
-}
+};
 
 export type PokerHandType =
 	| 'Pair'

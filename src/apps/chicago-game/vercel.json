@@ -1,4 +1,4 @@
 {
-  "buildCommand": "pnpm build",
-  "framework": "sveltekit"
+	"buildCommand": "pnpm build",
+	"framework": "sveltekit"
 }

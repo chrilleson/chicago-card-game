@@ -14,7 +14,7 @@ export function getPlayerInitials(name: string): string {
 	}
 
 	const words = cleanName.split(/\s+/);
-	
+
 	if (words.length === 1) {
 		// Single word: take first 2 characters
 		return words[0].substring(0, 2).toUpperCase();

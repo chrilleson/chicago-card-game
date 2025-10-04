@@ -32,7 +32,9 @@
 </script>
 
 <div class="mb-4">
-	<h4 class="font-medium {categoryColorClass.title} mb-2 text-sm tracking-wide uppercase">{title}</h4>
+	<h4 class="font-medium {categoryColorClass.title} mb-2 text-sm tracking-wide uppercase">
+		{title}
+	</h4>
 	<div class="space-y-1">
 		{#each hands as hand (hand.name)}
 			<div
@@ -43,7 +45,9 @@
 					<span class="text-xs text-gray-500 xl:text-sm">{hand.symbol}</span>
 				</div>
 				<span
-					class="self-start rounded px-2 py-1 text-xs font-medium whitespace-nowrap xl:text-sm {getColorClass(hand.category.color).badge}"
+					class="self-start rounded px-2 py-1 text-xs font-medium whitespace-nowrap xl:text-sm {getColorClass(
+						hand.category.color
+					).badge}"
 				>
 					{hand.points} point{hand.points !== 1 ? 's' : ''}
 				</span>

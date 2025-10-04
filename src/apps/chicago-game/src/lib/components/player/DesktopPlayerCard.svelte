@@ -66,7 +66,9 @@
 				{#each POKER_HANDS.slice(0, 3) as hand (hand.id)}
 					<button
 						onclick={() => handlePokerHandClick(hand.points)}
-						class="rounded {getColorClasses(hand.category.color)} px-1 py-1 text-xs text-white transition-colors"
+						class="rounded {getColorClasses(
+							hand.category.color
+						)} px-1 py-1 text-xs text-white transition-colors"
 						title={hand.name}
 					>
 						{hand.shortName}
@@ -78,7 +80,9 @@
 				{#each POKER_HANDS.slice(3, 6) as hand (hand.id)}
 					<button
 						onclick={() => handlePokerHandClick(hand.points)}
-						class="rounded {getColorClasses(hand.category.color)} px-1 py-1 text-xs text-white transition-colors"
+						class="rounded {getColorClasses(
+							hand.category.color
+						)} px-1 py-1 text-xs text-white transition-colors"
 						title={hand.name}
 					>
 						{hand.shortName}
@@ -90,7 +94,9 @@
 				{#each POKER_HANDS.slice(6, 9) as hand (hand.id)}
 					<button
 						onclick={() => handlePokerHandClick(hand.points)}
-						class="rounded {getColorClasses(hand.category.color)} px-1 py-1 text-xs text-white transition-colors"
+						class="rounded {getColorClasses(
+							hand.category.color
+						)} px-1 py-1 text-xs text-white transition-colors"
 						title={hand.name}
 					>
 						{hand.shortName}

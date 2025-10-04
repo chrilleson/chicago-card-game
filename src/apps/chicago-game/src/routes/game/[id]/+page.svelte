@@ -76,7 +76,7 @@
 	function handlePlayerClick(event: CustomEvent<string>) {
 		const playerId = event.detail;
 		if (currentGame) {
-			selectedPlayer = currentGame.players.find(p => p.id === playerId) || null;
+			selectedPlayer = currentGame.players.find((p) => p.id === playerId) || null;
 			showScoreModal = true;
 		}
 	}
@@ -84,13 +84,13 @@
 	function handleScoreUpdate(playerId: string, change: number) {
 		updatePlayerScore(playerId, change);
 		if (selectedPlayer && selectedPlayer.id === playerId && currentGame) {
-			selectedPlayer = currentGame.players.find(p => p.id === playerId) || null;
+			selectedPlayer = currentGame.players.find((p) => p.id === playerId) || null;
 		}
 	}
 
 	function handleResetOtherPlayers(playerId: string) {
 		if (currentGame) {
-			currentGame.players = currentGame.players.map(player => {
+			currentGame.players = currentGame.players.map((player) => {
 				if (player.id !== playerId) {
 					return { ...player, score: 0 };
 				}
@@ -99,7 +99,7 @@
 			currentGame = { ...currentGame };
 			saveGameToStorage();
 			if (selectedPlayer) {
-				selectedPlayer = currentGame.players.find(p => p.id === playerId) || null;
+				selectedPlayer = currentGame.players.find((p) => p.id === playerId) || null;
 			}
 		}
 	}
@@ -111,7 +111,6 @@
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-
 	<div class="mx-auto max-w-7xl p-4">
 		{#if gameNotFound}
 			<GameNotFound {gameId} />
@@ -128,17 +127,17 @@
 			{/if}
 
 			<!-- Mobile Layout (hidden on xl screens) -->
-			<div class="xl:hidden mt-8">
-				<MobilePlayerList 
-					players={currentGame.players} 
+			<div class="mt-8 xl:hidden">
+				<MobilePlayerList
+					players={currentGame.players}
 					isGameActive={currentGame.isActive}
 					on:playerClick={handlePlayerClick}
 				/>
-				
+
 				<div class="mt-6">
 					<PokerHandCheatsheet />
 				</div>
-				
+
 				<BackToHomeLink />
 			</div>
 
@@ -146,7 +145,7 @@
 			<div class="hidden xl:block">
 				<div class="grid grid-cols-1 gap-6 xl:grid-cols-5">
 					<div class="xl:col-span-4">
-						<div class="rounded-xl bg-white p-6 shadow-lg mt-8">
+						<div class="mt-8 rounded-xl bg-white p-6 shadow-lg">
 							<h2 class="mb-6 text-center text-2xl font-semibold">Players & Scores</h2>
 
 							<div class="overflow-x-auto">
@@ -174,11 +173,11 @@
 						</div>
 					</div>
 
-				<div class="xl:col-span-1">
-					<div class="sticky top-4 mt-8">
-						<PokerHandCheatsheet />
+					<div class="xl:col-span-1">
+						<div class="sticky top-4 mt-8">
+							<PokerHandCheatsheet />
+						</div>
 					</div>
-				</div>
 				</div>
 			</div>
 		{/if}
