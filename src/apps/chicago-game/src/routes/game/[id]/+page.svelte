@@ -115,8 +115,6 @@
 	</button>
 
 	<div class="mx-auto max-w-7xl p-4">
-		<GameHeader {gameId} {currentGame} />
-
 		{#if gameNotFound}
 			<GameNotFound {gameId} />
 		{:else if !currentGame}
@@ -143,7 +141,7 @@
 			{/if}
 
 			<!-- Mobile Layout (hidden on xl screens) -->
-			<div class="xl:hidden">
+			<div class="xl:hidden mt-8">
 				<MobilePlayerList 
 					players={currentGame.players} 
 					isGameActive={currentGame.isActive}
@@ -172,7 +170,7 @@
 			<div class="hidden xl:block">
 				<div class="grid grid-cols-1 gap-6 xl:grid-cols-5">
 					<div class="xl:col-span-4">
-						<div class="rounded-xl bg-white p-6 shadow-lg">
+						<div class="rounded-xl bg-white p-6 shadow-lg mt-8">
 							<h2 class="mb-6 text-center text-2xl font-semibold">Players & Scores</h2>
 
 							<div class="overflow-x-auto">
