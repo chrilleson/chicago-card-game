@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Player } from '$lib/types/player';
+	import type { Player } from '../../../types/player';
 
 	interface Props {
 		player: Player;

@@ -17,14 +17,22 @@
 		purple: {
 			title: 'text-purple-700',
 			badge: 'bg-purple-100 text-purple-800'
+		},
+		yellow: {
+			title: 'text-yellow-700',
+			badge: 'bg-yellow-100 text-yellow-800'
 		}
 	};
 
-	$: colorClass = colorClasses[categoryColor];
+	function getColorClass(color: 'green' | 'blue' | 'purple' | 'yellow') {
+		return colorClasses[color];
+	}
+
+	$: categoryColorClass = colorClasses[categoryColor];
 </script>
 
 <div class="mb-4">
-	<h4 class="font-medium {colorClass.title} mb-2 text-sm tracking-wide uppercase">{title}</h4>
+	<h4 class="font-medium {categoryColorClass.title} mb-2 text-sm tracking-wide uppercase">{title}</h4>
 	<div class="space-y-1">
 		{#each hands as hand (hand.name)}
 			<div
@@ -35,9 +43,7 @@
 					<span class="text-xs text-gray-500 xl:text-sm">{hand.symbol}</span>
 				</div>
 				<span
-					class="self-start rounded px-2 py-1 text-xs font-medium whitespace-nowrap xl:text-sm {hand.points === 52
-						? 'bg-yellow-100 text-yellow-800'
-						: colorClass.badge}"
+					class="self-start rounded px-2 py-1 text-xs font-medium whitespace-nowrap xl:text-sm {getColorClass(hand.category.color).badge}"
 				>
 					{hand.points} point{hand.points !== 1 ? 's' : ''}
 				</span>

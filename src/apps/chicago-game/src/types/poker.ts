@@ -1,11 +1,22 @@
-export interface PokerHand {
+export type PokerHandCategory = {
+	name: 'basic' | 'advanced' | 'rare';
+	color: 'green' | 'blue' | 'purple' | 'yellow';
+};
+
+export const POKER_HAND_CATEGORIES = {
+	basic: { name: 'basic', color: 'green' } as const,
+	advanced: { name: 'advanced', color: 'blue' } as const,
+	rare: { name: 'rare', color: 'purple' } as const
+};
+
+export type PokerHand = {
 	id: number;
 	name: string;
 	points: number;
 	symbol: string;
 	description: string;
 	shortName?: string;
-	category: 'basic' | 'advanced' | 'rare';
+	category: PokerHandCategory;
 }
 
 export type PokerHandType =
@@ -27,7 +38,7 @@ export const POKER_HANDS: PokerHand[] = [
 		symbol: 'K♠ K♥',
 		description: 'Two cards of same rank',
 		shortName: 'Pair',
-		category: 'basic'
+		category: POKER_HAND_CATEGORIES.basic
 	},
 	{
 		id: 1,
@@ -36,7 +47,7 @@ export const POKER_HANDS: PokerHand[] = [
 		symbol: 'K♠ K♥ 7♣ 7♦',
 		description: 'Two different pairs',
 		shortName: '2 Pairs',
-		category: 'basic'
+		category: POKER_HAND_CATEGORIES.basic
 	},
 	{
 		id: 2,
@@ -45,7 +56,7 @@ export const POKER_HANDS: PokerHand[] = [
 		symbol: 'K♠ K♥ K♣',
 		description: 'Three cards of same rank',
 		shortName: 'Three',
-		category: 'basic'
+		category: POKER_HAND_CATEGORIES.basic
 	},
 	{
 		id: 3,
@@ -54,7 +65,7 @@ export const POKER_HANDS: PokerHand[] = [
 		symbol: '5♠ 6♥ 7♣ 8♦ 9♠',
 		description: 'Five cards in sequence',
 		shortName: 'Straight',
-		category: 'advanced'
+		category: POKER_HAND_CATEGORIES.advanced
 	},
 	{
 		id: 4,
@@ -63,7 +74,7 @@ export const POKER_HANDS: PokerHand[] = [
 		symbol: 'K♠ 9♠ 7♠ 4♠ 2♠',
 		description: 'Five cards of same suit',
 		shortName: 'Flush',
-		category: 'advanced'
+		category: POKER_HAND_CATEGORIES.advanced
 	},
 	{
 		id: 5,
@@ -72,7 +83,7 @@ export const POKER_HANDS: PokerHand[] = [
 		symbol: 'K♠ K♥ K♣ 7♦ 7♠',
 		description: 'Three of a kind + pair',
 		shortName: 'Full House',
-		category: 'advanced'
+		category: POKER_HAND_CATEGORIES.advanced
 	},
 	{
 		id: 6,
@@ -81,7 +92,7 @@ export const POKER_HANDS: PokerHand[] = [
 		symbol: 'K♠ K♥ K♣ K♦',
 		description: 'Four cards of same rank',
 		shortName: 'Four',
-		category: 'rare'
+		category: POKER_HAND_CATEGORIES.rare
 	},
 	{
 		id: 7,
@@ -90,7 +101,7 @@ export const POKER_HANDS: PokerHand[] = [
 		symbol: '5♠ 6♠ 7♠ 8♠ 9♠',
 		description: 'Straight + flush combined',
 		shortName: 'Str. Flush',
-		category: 'rare'
+		category: POKER_HAND_CATEGORIES.rare
 	},
 	{
 		id: 8,
@@ -99,7 +110,7 @@ export const POKER_HANDS: PokerHand[] = [
 		symbol: '10♠ J♠ Q♠ K♠ A♠',
 		description: '10-J-Q-K-A of same suit',
 		shortName: 'Royal',
-		category: 'rare'
+		category: { name: 'rare', color: 'yellow' }
 	}
 ];
 
@@ -109,10 +120,10 @@ export function getPokerHandByPoints(points: number): PokerHand | undefined {
 }
 
 export function getPokerHandsByCategory(category: 'basic' | 'advanced' | 'rare'): PokerHand[] {
-	return POKER_HANDS.filter((hand) => hand.category === category);
+	return POKER_HANDS.filter((hand) => hand.category.name === category);
 }
 
 export function isRareHand(points: number): boolean {
 	const hand = getPokerHandByPoints(points);
-	return hand?.category === 'rare' || false;
+	return hand?.category.name === 'rare' || false;
 }
