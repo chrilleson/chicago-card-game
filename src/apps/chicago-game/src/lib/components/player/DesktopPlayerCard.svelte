@@ -60,9 +60,10 @@
 	</div>
 
 	{#if isActive}
-		<div class="space-y-2">
-			<div class="grid grid-cols-4 gap-1">
-				{#each POKER_HANDS.slice(0, 4) as hand (hand.id)}
+		<div class="space-y-1">
+			<!-- Basic Hands -->
+			<div class="grid grid-cols-3 gap-1">
+				{#each POKER_HANDS.slice(0, 3) as hand (hand.id)}
 					<button
 						onclick={() => handlePokerHandClick(hand.points)}
 						class="rounded {getColorClasses(hand.category.color)} px-1 py-1 text-xs text-white transition-colors"
@@ -72,8 +73,21 @@
 					</button>
 				{/each}
 			</div>
-			<div class="grid grid-cols-4 gap-1">
-				{#each POKER_HANDS.slice(4, 8) as hand (hand.id)}
+			<!-- Advanced Hands -->
+			<div class="grid grid-cols-3 gap-1">
+				{#each POKER_HANDS.slice(3, 6) as hand (hand.id)}
+					<button
+						onclick={() => handlePokerHandClick(hand.points)}
+						class="rounded {getColorClasses(hand.category.color)} px-1 py-1 text-xs text-white transition-colors"
+						title={hand.name}
+					>
+						{hand.shortName}
+					</button>
+				{/each}
+			</div>
+			<!-- Rare Hands -->
+			<div class="grid grid-cols-3 gap-1">
+				{#each POKER_HANDS.slice(6, 9) as hand (hand.id)}
 					<button
 						onclick={() => handlePokerHandClick(hand.points)}
 						class="rounded {getColorClasses(hand.category.color)} px-1 py-1 text-xs text-white transition-colors"

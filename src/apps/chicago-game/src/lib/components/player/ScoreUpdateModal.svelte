@@ -124,16 +124,43 @@
 				<!-- Poker Hands -->
 				<div>
 					<h4 class="text-sm font-medium text-gray-700 mb-3">Poker Hands</h4>
-					<div class="grid grid-cols-2 gap-3">
-						{#each POKER_HANDS as hand (hand.id)}
-							<button
-								onclick={() => handlePokerHandClick(hand.points)}
-								class="flex flex-col items-center justify-center p-3 {getColorClasses(hand.category.color)} text-white rounded-lg transition-colors"
-							>
-								<span class="text-lg font-bold">{hand.points}</span>
-								<span class="text-xs">{hand.name}</span>
-							</button>
-						{/each}
+					<div class="space-y-2">
+						<!-- Basic Hands -->
+						<div class="grid grid-cols-3 gap-2">
+							{#each POKER_HANDS.slice(0, 3) as hand (hand.id)}
+								<button
+									onclick={() => handlePokerHandClick(hand.points)}
+									class="flex flex-col items-center justify-center p-3 {getColorClasses(hand.category.color)} text-white rounded-lg transition-colors"
+								>
+									<span class="text-lg font-bold">{hand.points}</span>
+									<span class="text-xs">{hand.name}</span>
+								</button>
+							{/each}
+						</div>
+						<!-- Advanced Hands -->
+						<div class="grid grid-cols-3 gap-2">
+							{#each POKER_HANDS.slice(3, 6) as hand (hand.id)}
+								<button
+									onclick={() => handlePokerHandClick(hand.points)}
+									class="flex flex-col items-center justify-center p-3 {getColorClasses(hand.category.color)} text-white rounded-lg transition-colors"
+								>
+									<span class="text-lg font-bold">{hand.points}</span>
+									<span class="text-xs">{hand.name}</span>
+								</button>
+							{/each}
+						</div>
+						<!-- Rare Hands -->
+						<div class="grid grid-cols-3 gap-2">
+							{#each POKER_HANDS.slice(6, 9) as hand (hand.id)}
+								<button
+									onclick={() => handlePokerHandClick(hand.points)}
+									class="flex flex-col items-center justify-center p-3 {getColorClasses(hand.category.color)} text-white rounded-lg transition-colors"
+								>
+									<span class="text-lg font-bold">{hand.points}</span>
+									<span class="text-xs">{hand.name}</span>
+								</button>
+							{/each}
+						</div>
 					</div>
 				</div>
 
