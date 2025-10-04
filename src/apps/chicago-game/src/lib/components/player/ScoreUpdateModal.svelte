@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Player } from '../../../types/player';
+	import { POKER_HANDS } from '../../../types/poker';
 	import { createEventDispatcher } from 'svelte';
 	import FourOfAKindModal from './FourOfAKindModal.svelte';
 
@@ -16,6 +17,17 @@
 	let showFourOfAKindDialog = $state(false);
 
 	const dispatch = createEventDispatcher();
+
+	const colorMap = {
+		green: { bg: 'bg-green-500', hover: 'hover:bg-green-600' },
+		blue: { bg: 'bg-blue-500', hover: 'hover:bg-blue-600' },
+		purple: { bg: 'bg-purple-500', hover: 'hover:bg-purple-600' },
+		yellow: { bg: 'bg-yellow-500', hover: 'hover:bg-yellow-600' }
+	};
+
+	function getColorClasses(color: 'green' | 'blue' | 'purple' | 'yellow') {
+		return `${colorMap[color].bg} ${colorMap[color].hover}`;
+	}
 
 	function handlePokerHandClick(points: number) {
 		if (!player) return;
@@ -113,62 +125,15 @@
 				<div>
 					<h4 class="text-sm font-medium text-gray-700 mb-3">Poker Hands</h4>
 					<div class="grid grid-cols-2 gap-3">
-						<button
-							onclick={() => handlePokerHandClick(1)}
-							class="flex flex-col items-center justify-center p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-						>
-							<span class="text-lg font-bold">1</span>
-							<span class="text-xs">One Pair</span>
-						</button>
-						<button
-							onclick={() => handlePokerHandClick(2)}
-							class="flex flex-col items-center justify-center p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-						>
-							<span class="text-lg font-bold">2</span>
-							<span class="text-xs">Two Pairs</span>
-						</button>
-						<button
-							onclick={() => handlePokerHandClick(3)}
-							class="flex flex-col items-center justify-center p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-						>
-							<span class="text-lg font-bold">3</span>
-							<span class="text-xs">Three Kind</span>
-						</button>
-						<button
-							onclick={() => handlePokerHandClick(4)}
-							class="flex flex-col items-center justify-center p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-						>
-							<span class="text-lg font-bold">4</span>
-							<span class="text-xs">Straight</span>
-						</button>
-						<button
-							onclick={() => handlePokerHandClick(5)}
-							class="flex flex-col items-center justify-center p-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
-						>
-							<span class="text-lg font-bold">5</span>
-							<span class="text-xs">Flush</span>
-						</button>
-						<button
-							onclick={() => handlePokerHandClick(6)}
-							class="flex flex-col items-center justify-center p-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
-						>
-							<span class="text-lg font-bold">6</span>
-							<span class="text-xs">Full House</span>
-						</button>
-						<button
-							onclick={() => handlePokerHandClick(7)}
-							class="flex flex-col items-center justify-center p-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
-						>
-							<span class="text-lg font-bold">7</span>
-							<span class="text-xs">Four Kind</span>
-						</button>
-						<button
-							onclick={() => handlePokerHandClick(52)}
-							class="flex flex-col items-center justify-center p-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors"
-						>
-							<span class="text-lg font-bold">52</span>
-							<span class="text-xs">Royal Flush</span>
-						</button>
+						{#each POKER_HANDS as hand (hand.id)}
+							<button
+								onclick={() => handlePokerHandClick(hand.points)}
+								class="flex flex-col items-center justify-center p-3 {getColorClasses(hand.category.color)} text-white rounded-lg transition-colors"
+							>
+								<span class="text-lg font-bold">{hand.points}</span>
+								<span class="text-xs">{hand.name}</span>
+							</button>
+						{/each}
 					</div>
 				</div>
 

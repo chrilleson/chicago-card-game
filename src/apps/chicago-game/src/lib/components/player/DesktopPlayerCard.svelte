@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Player } from '../../../types/player';
+	import { POKER_HANDS } from '../../../types/poker';
 	import FourOfAKindModal from './FourOfAKindModal.svelte';
 
 	interface Props {
@@ -12,8 +13,23 @@
 	let { player, isActive, onScoreUpdate, onResetOtherPlayers }: Props = $props();
 	let showFourOfAKindModal = $state(false);
 
-	function handleFourOfAKindClick() {
-		showFourOfAKindModal = true;
+	const colorMap = {
+		green: { bg: 'bg-green-500', hover: 'hover:bg-green-600' },
+		blue: { bg: 'bg-blue-500', hover: 'hover:bg-blue-600' },
+		purple: { bg: 'bg-purple-500', hover: 'hover:bg-purple-600' },
+		yellow: { bg: 'bg-yellow-500', hover: 'hover:bg-yellow-600' }
+	};
+
+	function getColorClasses(color: 'green' | 'blue' | 'purple' | 'yellow') {
+		return `${colorMap[color].bg} ${colorMap[color].hover}`;
+	}
+
+	function handlePokerHandClick(points: number) {
+		if (points === 7) {
+			showFourOfAKindModal = true;
+		} else {
+			onScoreUpdate(player.id, points);
+		}
 	}
 
 	function handleFourOfAKindChoice(choice: 'points' | 'reset') {
@@ -46,64 +62,26 @@
 	{#if isActive}
 		<div class="space-y-2">
 			<div class="grid grid-cols-4 gap-1">
-				<button
-					onclick={() => onScoreUpdate(player.id, 1)}
-					class="rounded bg-blue-500 px-1 py-1 text-xs text-white transition-colors hover:bg-blue-600"
-					title="One Pair"
-				>
-					1p
-				</button>
-				<button
-					onclick={() => onScoreUpdate(player.id, 2)}
-					class="rounded bg-blue-500 px-1 py-1 text-xs text-white transition-colors hover:bg-blue-600"
-					title="Two Pairs"
-				>
-					2p
-				</button>
-				<button
-					onclick={() => onScoreUpdate(player.id, 3)}
-					class="rounded bg-blue-500 px-1 py-1 text-xs text-white transition-colors hover:bg-blue-600"
-					title="Three of a Kind"
-				>
-					3K
-				</button>
-				<button
-					onclick={() => onScoreUpdate(player.id, 4)}
-					class="rounded bg-blue-500 px-1 py-1 text-xs text-white transition-colors hover:bg-blue-600"
-					title="Straight"
-				>
-					Str
-				</button>
+				{#each POKER_HANDS.slice(0, 4) as hand (hand.id)}
+					<button
+						onclick={() => handlePokerHandClick(hand.points)}
+						class="rounded {getColorClasses(hand.category.color)} px-1 py-1 text-xs text-white transition-colors"
+						title={hand.name}
+					>
+						{hand.shortName}
+					</button>
+				{/each}
 			</div>
 			<div class="grid grid-cols-4 gap-1">
-				<button
-					onclick={() => onScoreUpdate(player.id, 5)}
-					class="rounded bg-green-500 px-1 py-1 text-xs text-white transition-colors hover:bg-green-600"
-					title="Flush"
-				>
-					Fl
-				</button>
-				<button
-					onclick={() => onScoreUpdate(player.id, 6)}
-					class="rounded bg-green-500 px-1 py-1 text-xs text-white transition-colors hover:bg-green-600"
-					title="Full House"
-				>
-					FH
-				</button>
-				<button
-					onclick={handleFourOfAKindClick}
-					class="rounded bg-purple-500 px-1 py-1 text-xs text-white transition-colors hover:bg-purple-600"
-					title="Four of a Kind"
-				>
-					4K
-				</button>
-				<button
-					onclick={() => onScoreUpdate(player.id, 52)}
-					class="rounded bg-yellow-500 px-1 py-1 text-xs text-white transition-colors hover:bg-yellow-600"
-					title="Royal Straight Flush"
-				>
-					RF
-				</button>
+				{#each POKER_HANDS.slice(4, 8) as hand (hand.id)}
+					<button
+						onclick={() => handlePokerHandClick(hand.points)}
+						class="rounded {getColorClasses(hand.category.color)} px-1 py-1 text-xs text-white transition-colors"
+						title={hand.name}
+					>
+						{hand.shortName}
+					</button>
+				{/each}
 			</div>
 			<div class="mt-2 grid grid-cols-3 gap-1">
 				<button
