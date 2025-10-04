@@ -1,16 +1,15 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	interface Props {
+		players: string[];
+		isGameStarted: boolean;
+		onRemovePlayer: (index: number) => void;
+		onUpdatePlayer: (data: { index: number; name: string }) => void;
+	}
 
-	export let players: string[] = [];
-	export let isGameStarted = false;
+	let { players, isGameStarted, onRemovePlayer, onUpdatePlayer }: Props = $props();
 
-	let editingIndex = -1;
-	let editName = '';
-
-	const dispatch = createEventDispatcher<{
-		removePlayer: number;
-		updatePlayer: { index: number; name: string };
-	}>();
+	let editingIndex = $state(-1);
+	let editName = $state('');
 
 	function startEdit(index: number) {
 		editingIndex = index;
@@ -19,7 +18,7 @@
 
 	function saveEdit() {
 		if (editName.trim()) {
-			dispatch('updatePlayer', { index: editingIndex, name: editName.trim() });
+			onUpdatePlayer({ index: editingIndex, name: editName.trim() });
 			cancelEdit();
 		}
 	}
@@ -30,7 +29,7 @@
 	}
 
 	function removePlayer(index: number) {
-		dispatch('removePlayer', index);
+		onRemovePlayer(index);
 		if (editingIndex === index) {
 			cancelEdit();
 		}
@@ -49,7 +48,7 @@
 			{#each players as player, index (index)}
 				<li class="flex items-center justify-between rounded border bg-white px-3 py-2">
 					{#if editingIndex === index}
-						<form on:submit={handleEditSubmit} class="flex flex-1 gap-2">
+						<form onsubmit={handleEditSubmit} class="flex flex-1 gap-2">
 							<input
 								type="text"
 								bind:value={editName}
@@ -64,7 +63,7 @@
 							</button>
 							<button
 								type="button"
-								on:click={cancelEdit}
+								onclick={cancelEdit}
 								class="rounded bg-gray-500 px-3 py-1 text-sm text-white transition-colors hover:bg-gray-600"
 							>
 								Cancel
@@ -75,13 +74,13 @@
 						{#if !isGameStarted}
 							<div class="flex gap-2">
 								<button
-									on:click={() => startEdit(index)}
+									onclick={() => startEdit(index)}
 									class="rounded bg-blue-500 px-3 py-1 text-sm text-white transition-colors hover:bg-blue-600"
 								>
 									Edit
 								</button>
 								<button
-									on:click={() => removePlayer(index)}
+									onclick={() => removePlayer(index)}
 									class="rounded bg-red-500 px-3 py-1 text-sm text-white transition-colors hover:bg-red-600"
 								>
 									Remove
