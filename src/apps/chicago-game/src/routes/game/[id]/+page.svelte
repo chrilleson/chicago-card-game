@@ -15,7 +15,6 @@
 	const gameId = $page.params.id || '';
 
 	let currentGame: Game | null = $state(null);
-	let showCheatsheet = $state(false);
 	let gameNotFound = $state(false);
 	let showScoreModal = $state(false);
 	let selectedPlayer: Player | null = $state(null);
@@ -98,21 +97,6 @@
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-	<button
-		onclick={() => (showCheatsheet = true)}
-		class="fixed top-4 right-4 z-10 rounded-full bg-blue-600 p-3 text-white shadow-lg transition-colors hover:bg-blue-700 xl:hidden"
-		title="View Poker Hand Guide"
-		aria-label="View Poker Hand Guide"
-	>
-		<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-			<path
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				stroke-width="2"
-				d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-			/>
-		</svg>
-	</button>
 
 	<div class="mx-auto max-w-7xl p-4">
 		{#if gameNotFound}
@@ -147,6 +131,10 @@
 					isGameActive={currentGame.isActive}
 					on:playerClick={handlePlayerClick}
 				/>
+				
+				<div class="mt-6">
+					<PokerHandCheatsheet />
+				</div>
 				
 				<div class="mt-6 text-center">
 					<a
@@ -309,58 +297,16 @@
 						</div>
 					</div>
 
-					<div class="xl:col-span-1">
-						<div class="sticky top-4">
-							<PokerHandCheatsheet />
-						</div>
+				<div class="xl:col-span-1">
+					<div class="sticky top-4 mt-8">
+						<PokerHandCheatsheet />
 					</div>
+				</div>
 				</div>
 			</div>
 		{/if}
 	</div>
 </div>
-
-<!-- Cheatsheet Modal (works on all screen sizes) -->
-{#if showCheatsheet}
-	<div
-		class="fixed inset-0 z-50 flex items-center justify-center p-4"
-		style="background-color: rgba(0, 0, 0, 0.5);"
-		onclick={() => (showCheatsheet = false)}
-		onkeydown={() => {}}
-		role="button"
-		tabindex="0"
-	>
-		<div
-			class="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-lg bg-white"
-			onclick={(e) => e.stopPropagation()}
-			onkeydown={() => {}}
-			role="dialog"
-			aria-modal="true"
-			tabindex="-1"
-		>
-			<div class="flex items-center justify-between border-b p-4">
-				<h3 class="text-lg font-semibold">Poker Hand Guide</h3>
-				<button
-					onclick={() => (showCheatsheet = false)}
-					class="text-gray-400 transition-colors hover:text-gray-600"
-					aria-label="Close modal"
-				>
-					<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M6 18L18 6M6 6l12 12"
-						/>
-					</svg>
-				</button>
-			</div>
-			<div class="p-4">
-				<PokerHandCheatsheet />
-			</div>
-		</div>
-	</div>
-{/if}
 
 <!-- Score Modal (using same pattern as cheatsheet) -->
 {#if showScoreModal && selectedPlayer}
