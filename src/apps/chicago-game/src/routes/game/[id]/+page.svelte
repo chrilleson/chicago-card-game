@@ -162,6 +162,7 @@
 											{player}
 											isActive={currentGame.isActive}
 											onScoreUpdate={handleScoreUpdate}
+											onResetOtherPlayers={handleResetOtherPlayers}
 										/>
 									{/each}
 								</div>

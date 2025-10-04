@@ -1,13 +1,33 @@
 <script lang="ts">
 	import type { Player } from '../../../types/player';
+	import FourOfAKindModal from './FourOfAKindModal.svelte';
 
 	interface Props {
 		player: Player;
 		isActive: boolean;
 		onScoreUpdate: (playerId: string, points: number) => void;
+		onResetOtherPlayers?: (playerId: string) => void;
 	}
 
-	let { player, isActive, onScoreUpdate }: Props = $props();
+	let { player, isActive, onScoreUpdate, onResetOtherPlayers }: Props = $props();
+	let showFourOfAKindModal = $state(false);
+
+	function handleFourOfAKindClick() {
+		showFourOfAKindModal = true;
+	}
+
+	function handleFourOfAKindChoice(choice: 'points' | 'reset') {
+		if (choice === 'points') {
+			onScoreUpdate(player.id, 7);
+		} else if (choice === 'reset' && onResetOtherPlayers) {
+			onResetOtherPlayers(player.id);
+		}
+		showFourOfAKindModal = false;
+	}
+
+	function closeFourOfAKindModal() {
+		showFourOfAKindModal = false;
+	}
 </script>
 
 <div class="rounded-lg border border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 p-4">
@@ -71,7 +91,7 @@
 					FH
 				</button>
 				<button
-					onclick={() => onScoreUpdate(player.id, 7)}
+					onclick={handleFourOfAKindClick}
 					class="rounded bg-purple-500 px-1 py-1 text-xs text-white transition-colors hover:bg-purple-600"
 					title="Four of a Kind"
 				>
@@ -111,3 +131,9 @@
 		</div>
 	{/if}
 </div>
+
+<FourOfAKindModal
+	show={showFourOfAKindModal}
+	onChoice={handleFourOfAKindChoice}
+	onClose={closeFourOfAKindModal}
+/>
