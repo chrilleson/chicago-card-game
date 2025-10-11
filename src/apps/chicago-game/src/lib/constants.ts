@@ -1,0 +1,3 @@
+export const CHICAGO_SUCCESS_POINTS = 15;
+export const CHICAGO_FAIL_POINTS = -15;
+export const CHICAGO_MIN_SCORE_REQUIREMENT = 15;

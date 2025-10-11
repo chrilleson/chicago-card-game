@@ -36,7 +36,8 @@
 			const gamePlayers: Player[] = players.map((name) => ({
 				id: crypto.randomUUID(),
 				name,
-				score: 0
+				score: 0,
+				declaredChicago: false
 			}));
 
 			currentGame = {

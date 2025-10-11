@@ -4,6 +4,7 @@
 	import { browser } from '$app/environment';
 	import type { Game } from '../../../types/game';
 	import type { Player } from '../../../types/player';
+	import { CHICAGO_SUCCESS_POINTS, CHICAGO_FAIL_POINTS } from '../../../lib/constants';
 	import PokerHandCheatsheet from '../../../lib/components/game/PokerHandCheatsheet.svelte';
 	import GameOverBanner from '../../../lib/components/game/GameOverBanner.svelte';
 	import GameNotFound from '../../../lib/components/ui/GameNotFound.svelte';
@@ -62,6 +63,13 @@
 				const newScore = Math.max(0, currentGame.players[playerIndex].score + change);
 				currentGame.players[playerIndex].score = newScore;
 
+				if (
+					(change === CHICAGO_SUCCESS_POINTS || change === CHICAGO_FAIL_POINTS) &&
+					currentGame.players[playerIndex].declaredChicago
+				) {
+					currentGame.players[playerIndex].declaredChicago = false;
+				}
+
 				if (newScore >= 52) {
 					currentGame.isActive = false;
 					currentGame.finishedAt = new Date();
@@ -106,6 +114,21 @@
 	function closeScoreModal() {
 		showScoreModal = false;
 		selectedPlayer = null;
+	}
+
+	function toggleChicagoDeclaration(playerId: string) {
+		if (currentGame) {
+			const playerIndex = currentGame.players.findIndex((p) => p.id === playerId);
+			if (playerIndex !== -1) {
+				currentGame.players[playerIndex].declaredChicago =
+					!currentGame.players[playerIndex].declaredChicago;
+				currentGame = { ...currentGame };
+				saveGameToStorage();
+				if (selectedPlayer && selectedPlayer.id === playerId) {
+					selectedPlayer = currentGame.players.find((p) => p.id === playerId) || null;
+				}
+			}
+		}
 	}
 </script>
 
@@ -161,6 +184,7 @@
 											isActive={currentGame.isActive}
 											onScoreUpdate={handleScoreUpdate}
 											onResetOtherPlayers={handleResetOtherPlayers}
+											onToggleChicago={toggleChicagoDeclaration}
 										/>
 									{/each}
 								</div>
@@ -188,5 +212,6 @@
 	player={selectedPlayer}
 	onScoreUpdate={handleScoreUpdate}
 	onResetOtherPlayers={handleResetOtherPlayers}
+	onToggleChicago={toggleChicagoDeclaration}
 	onClose={closeScoreModal}
 />

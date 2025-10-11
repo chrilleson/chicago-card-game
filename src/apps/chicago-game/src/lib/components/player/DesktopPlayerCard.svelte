@@ -1,6 +1,11 @@
 <script lang="ts">
 	import type { Player } from '../../../types/player';
 	import { POKER_HANDS } from '../../../types/poker';
+	import {
+		CHICAGO_MIN_SCORE_REQUIREMENT,
+		CHICAGO_SUCCESS_POINTS,
+		CHICAGO_FAIL_POINTS
+	} from '../../constants';
 	import FourOfAKindModal from './FourOfAKindModal.svelte';
 
 	interface Props {
@@ -8,9 +13,10 @@
 		isActive: boolean;
 		onScoreUpdate: (playerId: string, points: number) => void;
 		onResetOtherPlayers?: (playerId: string) => void;
+		onToggleChicago: (playerId: string) => void;
 	}
 
-	let { player, isActive, onScoreUpdate, onResetOtherPlayers }: Props = $props();
+	let { player, isActive, onScoreUpdate, onResetOtherPlayers, onToggleChicago }: Props = $props();
 	let showFourOfAKindModal = $state(false);
 
 	const colorMap = {
@@ -50,6 +56,11 @@
 	<div class="mb-3 text-center">
 		<h3 class="truncate text-lg font-bold text-gray-900" title={player.name}>
 			{player.name}
+			{#if player.declaredChicago}
+				<span class="ml-1 text-lg" title="Declared Chicago" role="img" aria-label="Declared Chicago"
+					>©️</span
+				>
+			{/if}
 		</h3>
 		<div class="mb-2 text-3xl font-bold text-blue-600">
 			{player.score}
@@ -124,6 +135,38 @@
 					title="Subtract 5"
 				>
 					-5
+				</button>
+			</div>
+			<div class="mt-1">
+				<button
+					onclick={() => onToggleChicago(player.id)}
+					disabled={!player.declaredChicago && player.score < CHICAGO_MIN_SCORE_REQUIREMENT}
+					class="w-full rounded {player.declaredChicago
+						? 'bg-orange-500 hover:bg-orange-600'
+						: 'bg-gray-500 hover:bg-gray-600'} px-1 py-1 text-xs text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+					title={!player.declaredChicago && player.score < CHICAGO_MIN_SCORE_REQUIREMENT
+						? 'Need 15+ points to declare Chicago'
+						: player.declaredChicago
+							? 'Remove Chicago Declaration'
+							: 'Declare Chicago'}
+				>
+					{player.declaredChicago ? '©️ Chicago' : 'Declare ©️'}
+				</button>
+			</div>
+			<div class="mt-1 grid grid-cols-2 gap-1">
+				<button
+					onclick={() => onScoreUpdate(player.id, CHICAGO_SUCCESS_POINTS)}
+					class="rounded bg-indigo-500 px-1 py-1 text-xs text-white transition-colors hover:bg-indigo-600"
+					title="Chicago Success"
+				>
+					+{CHICAGO_SUCCESS_POINTS}
+				</button>
+				<button
+					onclick={() => onScoreUpdate(player.id, CHICAGO_FAIL_POINTS)}
+					class="rounded bg-red-700 px-1 py-1 text-xs text-white transition-colors hover:bg-red-800"
+					title="Chicago Fail"
+				>
+					{CHICAGO_FAIL_POINTS}
 				</button>
 			</div>
 		</div>
