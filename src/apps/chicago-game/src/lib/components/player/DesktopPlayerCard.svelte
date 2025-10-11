@@ -1,7 +1,11 @@
 <script lang="ts">
 	import type { Player } from '../../../types/player';
 	import { POKER_HANDS } from '../../../types/poker';
-	import { CHICAGO_MIN_SCORE_REQUIREMENT, CHICAGO_SUCCESS_POINTS, CHICAGO_FAIL_POINTS } from '../../constants';
+	import {
+		CHICAGO_MIN_SCORE_REQUIREMENT,
+		CHICAGO_SUCCESS_POINTS,
+		CHICAGO_FAIL_POINTS
+	} from '../../constants';
 	import FourOfAKindModal from './FourOfAKindModal.svelte';
 
 	interface Props {
@@ -53,7 +57,9 @@
 		<h3 class="truncate text-lg font-bold text-gray-900" title={player.name}>
 			{player.name}
 			{#if player.declaredChicago}
-				<span class="ml-1 text-lg" title="Declared Chicago" role="img" aria-label="Declared Chicago">©️</span>
+				<span class="ml-1 text-lg" title="Declared Chicago" role="img" aria-label="Declared Chicago"
+					>©️</span
+				>
 			{/if}
 		</h3>
 		<div class="mb-2 text-3xl font-bold text-blue-600">

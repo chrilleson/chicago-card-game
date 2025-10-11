@@ -1,7 +1,11 @@
 <script lang="ts">
 	import type { Player } from '../../../types/player';
 	import { POKER_HANDS } from '../../../types/poker';
-	import { CHICAGO_SUCCESS_POINTS, CHICAGO_FAIL_POINTS, CHICAGO_MIN_SCORE_REQUIREMENT } from '../../constants';
+	import {
+		CHICAGO_SUCCESS_POINTS,
+		CHICAGO_FAIL_POINTS,
+		CHICAGO_MIN_SCORE_REQUIREMENT
+	} from '../../constants';
 	import FourOfAKindModal from './FourOfAKindModal.svelte';
 
 	interface Props {
@@ -13,7 +17,8 @@
 		onClose: () => void;
 	}
 
-	let { show, player, onScoreUpdate, onResetOtherPlayers, onToggleChicago, onClose }: Props = $props();
+	let { show, player, onScoreUpdate, onResetOtherPlayers, onToggleChicago, onClose }: Props =
+		$props();
 
 	let showFourOfAKindDialog = $state(false);
 
@@ -104,7 +109,12 @@
 					<h3 class="text-lg font-semibold">
 						{player.name}
 						{#if player.declaredChicago}
-							<span class="ml-1 text-lg" role="img" aria-label="Declared Chicago" title="Declared Chicago">©️</span>
+							<span
+								class="ml-1 text-lg"
+								role="img"
+								aria-label="Declared Chicago"
+								title="Declared Chicago">©️</span
+							>
 						{/if}
 					</h3>
 					<div class="text-blue-100">Score: {player.score}</div>
