@@ -8,10 +8,11 @@
 		player: Player | null;
 		onScoreUpdate: (playerId: string, change: number) => void;
 		onResetOtherPlayers: (playerId: string) => void;
+		onToggleChicago: (playerId: string) => void;
 		onClose: () => void;
 	}
 
-	let { show, player, onScoreUpdate, onResetOtherPlayers, onClose }: Props = $props();
+	let { show, player, onScoreUpdate, onResetOtherPlayers, onToggleChicago, onClose }: Props = $props();
 
 	let showFourOfAKindDialog = $state(false);
 
@@ -99,7 +100,12 @@
 				class="flex items-center justify-between rounded-t-lg border-b bg-blue-600 p-4 text-white"
 			>
 				<div>
-					<h3 class="text-lg font-semibold">{player.name}</h3>
+					<h3 class="text-lg font-semibold">
+						{player.name}
+						{#if player.declaredChicago}
+							<span class="ml-1 text-lg" title="Declared Chicago">©️</span>
+						{/if}
+					</h3>
 					<div class="text-blue-100">Score: {player.score}</div>
 				</div>
 				<button
@@ -178,6 +184,24 @@
 							class="flex items-center justify-center rounded-lg bg-emerald-500 p-3 text-white transition-colors hover:bg-emerald-600"
 						>
 							<span class="font-semibold">Last Trick (+5)</span>
+						</button>
+						<button
+							onclick={() => player && onToggleChicago(player.id)}
+							disabled={!player.declaredChicago && player.score < 15}
+							class="flex items-center justify-center rounded-lg {player.declaredChicago
+								? 'bg-orange-500 hover:bg-orange-600'
+								: 'bg-gray-500 hover:bg-gray-600'} p-3 text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+							title={!player.declaredChicago && player.score < 15
+								? 'Need 15+ points to declare Chicago'
+								: ''}
+						>
+							<span class="font-semibold"
+								>{player.declaredChicago
+									? '©️ Chicago Declared'
+									: player.score < 15
+										? 'Need 15+ pts for Chicago'
+										: 'Declare Chicago ©️'}</span
+							>
 						</button>
 						<button
 							onclick={handleChicagoSuccess}

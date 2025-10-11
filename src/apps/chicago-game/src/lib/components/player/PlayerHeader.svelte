@@ -16,6 +16,9 @@
 			{player.name.charAt(0).toUpperCase()}
 		</div>
 		<span class="text-lg font-medium">{player.name}</span>
+		{#if player.declaredChicago}
+			<span class="text-lg" title="Declared Chicago">©️</span>
+		{/if}
 		{#if player.score >= 52}
 			<span class="font-bold text-green-600">👑 WINNER</span>
 		{/if}

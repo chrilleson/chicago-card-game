@@ -5,9 +5,10 @@
 		players: Player[];
 		isGameActive: boolean;
 		onPlayerClick: (playerId: string) => void;
+		onToggleChicago: (playerId: string) => void;
 	}
 
-	let { players, isGameActive, onPlayerClick }: Props = $props();
+	let { players, isGameActive, onPlayerClick, onToggleChicago }: Props = $props();
 
 	function handlePlayerClick(playerId: string) {
 		if (isGameActive) {
@@ -32,7 +33,12 @@
 			>
 				<div class="flex items-center space-x-3">
 					<div class="text-left">
-						<div class="text-lg font-semibold text-gray-900">{player.name}</div>
+						<div class="text-lg font-semibold text-gray-900">
+							{player.name}
+							{#if player.declaredChicago}
+								<span class="ml-1 text-lg" title="Declared Chicago">©️</span>
+							{/if}
+						</div>
 						{#if player.score >= 52}
 							<div class="text-sm font-medium text-green-600">Winner!</div>
 						{:else}

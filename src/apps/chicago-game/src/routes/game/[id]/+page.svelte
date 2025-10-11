@@ -62,6 +62,10 @@
 				const newScore = Math.max(0, currentGame.players[playerIndex].score + change);
 				currentGame.players[playerIndex].score = newScore;
 
+				if ((change === 15 || change === -15) && currentGame.players[playerIndex].declaredChicago) {
+					currentGame.players[playerIndex].declaredChicago = false;
+				}
+
 				if (newScore >= 52) {
 					currentGame.isActive = false;
 					currentGame.finishedAt = new Date();
@@ -107,6 +111,20 @@
 		showScoreModal = false;
 		selectedPlayer = null;
 	}
+
+	function toggleChicagoDeclaration(playerId: string) {
+		if (currentGame) {
+			const playerIndex = currentGame.players.findIndex((p) => p.id === playerId);
+			if (playerIndex !== -1) {
+				currentGame.players[playerIndex].declaredChicago = !currentGame.players[playerIndex].declaredChicago;
+				currentGame = { ...currentGame };
+				saveGameToStorage();
+				if (selectedPlayer && selectedPlayer.id === playerId) {
+					selectedPlayer = currentGame.players.find((p) => p.id === playerId) || null;
+				}
+			}
+		}
+	}
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -131,6 +149,7 @@
 					players={currentGame.players}
 					isGameActive={currentGame.isActive}
 					onPlayerClick={handlePlayerClick}
+					onToggleChicago={toggleChicagoDeclaration}
 				/>
 
 				<div class="mt-6">
@@ -161,6 +180,7 @@
 											isActive={currentGame.isActive}
 											onScoreUpdate={handleScoreUpdate}
 											onResetOtherPlayers={handleResetOtherPlayers}
+											onToggleChicago={toggleChicagoDeclaration}
 										/>
 									{/each}
 								</div>
@@ -188,5 +208,6 @@
 	player={selectedPlayer}
 	onScoreUpdate={handleScoreUpdate}
 	onResetOtherPlayers={handleResetOtherPlayers}
+	onToggleChicago={toggleChicagoDeclaration}
 	onClose={closeScoreModal}
 />
