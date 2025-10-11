@@ -17,7 +17,7 @@
 		</div>
 		<span class="text-lg font-medium">{player.name}</span>
 		{#if player.declaredChicago}
-			<span class="text-lg" title="Declared Chicago">©️</span>
+			<span class="text-lg" title="Declared Chicago" role="img" aria-label="Declared Chicago">©️</span>
 		{/if}
 		{#if player.score >= 52}
 			<span class="font-bold text-green-600">👑 WINNER</span>

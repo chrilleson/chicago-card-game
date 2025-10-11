@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Player } from '../../../types/player';
 	import { POKER_HANDS } from '../../../types/poker';
+	import { CHICAGO_SUCCESS_POINTS, CHICAGO_FAIL_POINTS, CHICAGO_MIN_SCORE_REQUIREMENT } from '../../constants';
 	import FourOfAKindModal from './FourOfAKindModal.svelte';
 
 	interface Props {
@@ -44,12 +45,12 @@
 
 	function handleChicagoSuccess() {
 		if (!player) return;
-		onScoreUpdate(player.id, 15);
+		onScoreUpdate(player.id, CHICAGO_SUCCESS_POINTS);
 	}
 
 	function handleChicagoFail() {
 		if (!player) return;
-		onScoreUpdate(player.id, -15);
+		onScoreUpdate(player.id, CHICAGO_FAIL_POINTS);
 	}
 
 	function handleSubtract(points: number) {
@@ -103,7 +104,7 @@
 					<h3 class="text-lg font-semibold">
 						{player.name}
 						{#if player.declaredChicago}
-							<span class="ml-1 text-lg" title="Declared Chicago">©️</span>
+							<span class="ml-1 text-lg" role="img" aria-label="Declared Chicago" title="Declared Chicago">©️</span>
 						{/if}
 					</h3>
 					<div class="text-blue-100">Score: {player.score}</div>
@@ -187,19 +188,19 @@
 						</button>
 						<button
 							onclick={() => player && onToggleChicago(player.id)}
-							disabled={!player.declaredChicago && player.score < 15}
+							disabled={!player.declaredChicago && player.score < CHICAGO_MIN_SCORE_REQUIREMENT}
 							class="flex items-center justify-center rounded-lg {player.declaredChicago
 								? 'bg-orange-500 hover:bg-orange-600'
 								: 'bg-gray-500 hover:bg-gray-600'} p-3 text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
-							title={!player.declaredChicago && player.score < 15
-								? 'Need 15+ points to declare Chicago'
+							title={!player.declaredChicago && player.score < CHICAGO_MIN_SCORE_REQUIREMENT
+								? `Need ${CHICAGO_MIN_SCORE_REQUIREMENT}+ points to declare Chicago`
 								: ''}
 						>
 							<span class="font-semibold"
 								>{player.declaredChicago
 									? '©️ Chicago Declared'
-									: player.score < 15
-										? 'Need 15+ pts for Chicago'
+									: player.score < CHICAGO_MIN_SCORE_REQUIREMENT
+										? `Need ${CHICAGO_MIN_SCORE_REQUIREMENT}+ pts for Chicago`
 										: 'Declare Chicago ©️'}</span
 							>
 						</button>
@@ -207,13 +208,13 @@
 							onclick={handleChicagoSuccess}
 							class="flex items-center justify-center rounded-lg bg-indigo-500 p-3 text-white transition-colors hover:bg-indigo-600"
 						>
-							<span class="font-semibold">Chicago Success (+15)</span>
+							<span class="font-semibold">Chicago Success (+{CHICAGO_SUCCESS_POINTS})</span>
 						</button>
 						<button
 							onclick={handleChicagoFail}
 							class="flex items-center justify-center rounded-lg bg-red-500 p-3 text-white transition-colors hover:bg-red-600"
 						>
-							<span class="font-semibold">Chicago Fail (-15)</span>
+							<span class="font-semibold">Chicago Fail ({CHICAGO_FAIL_POINTS})</span>
 						</button>
 					</div>
 				</div>
